@@ -6,7 +6,7 @@ package nz.ara.game.model.impl.saveable;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import nz.ara.game.logger.MyLogger;
 import nz.ara.game.model.em.wall.Wall;
