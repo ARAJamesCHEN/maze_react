@@ -1,7 +1,7 @@
 /**
  * 
  */
-package nz.ara.game.util.tools;
+package nz.ara.game.model.util.tools;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

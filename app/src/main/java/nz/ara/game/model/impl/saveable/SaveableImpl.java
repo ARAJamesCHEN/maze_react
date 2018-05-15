@@ -6,7 +6,6 @@ package nz.ara.game.model.impl.saveable;
 import java.util.Iterator;
 import java.util.List;
 
-import android.util.Log;
 import nz.ara.game.model.em.wall.Wall;
 import nz.ara.game.model.impl.game.GameImpl;
 import nz.ara.game.model.in.point.Point;
@@ -18,7 +17,6 @@ import nz.ara.game.model.in.point.Point;
 public class SaveableImpl implements nz.ara.game.model.in.saveable.Saveable {
 
 	private static final String TAG = "SaveableImpl";
-	//Logger logger = new MyLogger().getLogger(SaveableImpl.class);
 	
 	private GameImpl gameImpl;
 	

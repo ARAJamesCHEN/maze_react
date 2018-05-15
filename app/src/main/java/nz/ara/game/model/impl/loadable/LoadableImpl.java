@@ -14,13 +14,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import nz.ara.game.bean.maze.MazeBean;
-import nz.ara.game.em.constvalue.Const;
-import nz.ara.game.logger.MyLogger;
+import nz.ara.game.model.bean.maze.MazeBean;
+import nz.ara.game.model.em.constvalue.Const;
 import nz.ara.game.model.impl.point.PointImpl;
 import nz.ara.game.model.in.loadable.Loadable;
 import nz.ara.game.model.in.point.Point;
-import nz.ara.game.util.tools.UtilTools;
+import nz.ara.game.model.util.tools.UtilTools;
 
 /**
  * @author yac0105
@@ -29,7 +28,6 @@ import nz.ara.game.util.tools.UtilTools;
 public class LoadableImpl implements Loadable {
 
 	private static final String TAG = "LoadableImpl";
-	//Logger logger = new MyLogger().getLogger(LoadableImpl.class);
 	
 	private int level;
 	

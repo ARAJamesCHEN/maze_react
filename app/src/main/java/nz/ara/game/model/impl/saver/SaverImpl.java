@@ -19,8 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import nz.ara.game.em.constvalue.Const;
-import nz.ara.game.logger.MyLogger;
+import nz.ara.game.model.em.constvalue.Const;
 import nz.ara.game.model.em.wall.Wall;
 import nz.ara.game.model.impl.point.PointImpl;
 import nz.ara.game.model.impl.saveable.SaveableImpl;
@@ -35,14 +34,13 @@ import nz.ara.game.model.in.saver.Saver;
 public class SaverImpl implements Saver {
 
 	private static final String TAG = "SaverImpl";
-	//Log logger = new MyLogger().getLogger(SaverImpl.class);
 	
 	private int level = 0;
 	
 	public SaverImpl(int level) {
 		this.level = level;
 	}
-	
+
     public String buildLevelMsgAsString(Saveable savable) {
     	
     	SaveableImpl s = (SaveableImpl) savable;

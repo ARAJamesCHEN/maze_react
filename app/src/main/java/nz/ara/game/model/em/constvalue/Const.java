@@ -1,7 +1,7 @@
 /**
  * 
  */
-package nz.ara.game.em.constvalue;
+package nz.ara.game.model.em.constvalue;
 
 /**
  * @author yac0105
@@ -37,11 +37,11 @@ public enum Const {
 	;
 	
 	private String value;
-	
+
 	private Const(String value){
         this.value=value;
     }
-	
+
 	public String getValue(){
         return value;
     }

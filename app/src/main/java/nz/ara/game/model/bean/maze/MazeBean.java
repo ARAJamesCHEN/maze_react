@@ -1,7 +1,7 @@
 /**
  * 
  */
-package nz.ara.game.bean.maze;
+package nz.ara.game.model.bean.maze;
 
 import java.util.ArrayList;
 import java.util.List;

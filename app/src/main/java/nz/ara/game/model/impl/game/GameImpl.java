@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
-import nz.ara.game.bean.maze.MazeBean;
-import nz.ara.game.em.constvalue.Const;
+import nz.ara.game.model.bean.maze.MazeBean;
+import nz.ara.game.model.em.constvalue.Const;
 import nz.ara.game.model.em.direction.Direction;
 import nz.ara.game.model.impl.loadable.LoadableImpl;
 import nz.ara.game.model.impl.point.PointImpl;
@@ -20,7 +20,7 @@ import nz.ara.game.model.in.point.Point;
 import nz.ara.game.model.in.saver.Saver;
 import nz.ara.game.model.role.minotaur.Minotaur;
 import nz.ara.game.model.role.theseus.Theseus;
-import nz.ara.game.util.tools.UtilTools;
+import nz.ara.game.model.util.tools.UtilTools;
 
 /**
  * @author yac0105
@@ -29,8 +29,6 @@ import nz.ara.game.util.tools.UtilTools;
 public class GameImpl implements Game {
 
 	private static final String TAG = "GameImpl";
-
-	//Logger logger = new MyLogger().getLogger(GameImpl.class);
 	
 	private int level = -1;
 	
