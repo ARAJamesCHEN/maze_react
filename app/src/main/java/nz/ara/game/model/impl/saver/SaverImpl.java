@@ -3,13 +3,14 @@
  */
 package nz.ara.game.model.impl.saver;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -32,8 +33,9 @@ import nz.ara.game.model.in.saver.Saver;
  *
  */
 public class SaverImpl implements Saver {
-	
-	Logger logger = new MyLogger().getLogger(SaverImpl.class);
+
+	private static final String TAG = "SaverImpl";
+	//Log logger = new MyLogger().getLogger(SaverImpl.class);
 	
 	private int level = 0;
 	
@@ -49,7 +51,7 @@ public class SaverImpl implements Saver {
 		
 		//B=3,3
 		String beginPointStr = "B=" + savable.getWidthAcross() + "," + savable.getDepthDown();
-		logger.debug(beginPointStr);
+		Log.d(TAG,beginPointStr);
 		sf.append(beginPointStr);
 		sf.append(";");
 		
@@ -88,7 +90,7 @@ public class SaverImpl implements Saver {
 			j++;
 			y+=stepHeight; 
 		}
-		logger.debug(aboveWallStr);
+		Log.d(TAG,aboveWallStr);
 		sf.append(aboveWallStr);
 		
 		String leftWallStr = "L=";
@@ -118,7 +120,7 @@ public class SaverImpl implements Saver {
 			p++;
 			x+=stepWidth;
 		}
-        logger.debug(leftWallStr);
+        Log.d(TAG,leftWallStr);
         sf.append(";");
         sf.append(leftWallStr);
         
@@ -127,7 +129,7 @@ public class SaverImpl implements Saver {
         int ac = stepWidth==0?point.across() : point.across()/stepWidth;
         int dn = stepHeight==0?point.down() : point.down()/stepHeight;
       	String minPointStr = "M=" + ac + "," + dn;
-      	logger.debug(minPointStr);
+      	Log.d(TAG,minPointStr);
       	sf.append(";");
       	sf.append(minPointStr);
 		
@@ -136,7 +138,7 @@ public class SaverImpl implements Saver {
 		ac = stepWidth==0?point.across() : point.across()/stepWidth;
         dn = stepHeight==0?point.down() : point.down()/stepHeight;
 		String thePointStr = "T=" + ac + "," + dn;
-		logger.debug(thePointStr);
+		Log.d(TAG,thePointStr);
 		sf.append(";");
 		sf.append(thePointStr);
 		
@@ -145,12 +147,12 @@ public class SaverImpl implements Saver {
 		ac = stepWidth==0?point.across() : point.across()/stepWidth;
         dn = stepHeight==0?point.down() : point.down()/stepHeight;
 		String exitPointStr = "E=" + ac + "," + dn;
-		logger.debug(exitPointStr);
+		Log.d(TAG,exitPointStr);
 		sf.append(";");
 		sf.append(exitPointStr);
 		sf.append(":");
 		
-		logger.debug("The save level [" + this.level + "] message: " + sf.toString());
+		Log.d(TAG,"The save level [" + this.level + "] message: " + sf.toString());
 		
 		return sf.toString();
 		
@@ -201,7 +203,7 @@ public class SaverImpl implements Saver {
 		
 		this.writeMsgToFile(this.level, fileName, levelMsgString);
 		
-		logger.debug(levelMsgString);
+		Log.d(TAG,levelMsgString);
 	}
 	
 	private void writeMsgToFile(int level, String fileName, String content) {
@@ -217,7 +219,7 @@ public class SaverImpl implements Saver {
 			try {
 				fis = new FileInputStream(new File(fileName));
 			} catch (FileNotFoundException e) {
-				logger.debug("No File found: " + fileName);
+				Log.d(TAG,"No File found: " + fileName);
 			}
 			
 			
@@ -226,7 +228,7 @@ public class SaverImpl implements Saver {
 			int maxCol = 24;
 			
 			if(fis == null) {
-				logger.debug("So we make it up totally! Happy!~");
+				Log.d(TAG,"So we make it up totally! Happy!~");
 				
 				//Creating a blank workbook
 				workbook = new XSSFWorkbook(); 
@@ -249,7 +251,7 @@ public class SaverImpl implements Saver {
 							CellRangeAddress cellMerge = new CellRangeAddress(rowNum, rowNum, 8, maxCol);
 							spreadsheet.addMergedRegion(cellMerge);
 						} catch (Exception e) {
-							logger.error("some issures for creating the merge area");
+							Log.e(TAG,"some issures for creating the merge area");
 						}
 
 	                	Cell cell0 = row.getCell(7);
@@ -269,7 +271,7 @@ public class SaverImpl implements Saver {
 				
 			}else {
 				//reade content first
-				logger.debug("update read it first and rewrite");
+				Log.d(TAG,"update read it first and rewrite");
 				workbook = new XSSFWorkbook(fis);
 				spreadsheet = workbook.getSheetAt(0); 
 				
@@ -310,7 +312,7 @@ public class SaverImpl implements Saver {
 										 spreadsheet.addMergedRegion(cellMerge);
 									} catch (Exception e) {
 										
-										logger.error("some issures for creating the merge area");
+										Log.e(TAG,"some issures for creating the merge area");
 										
 									}
 						        	 //Adding values to cell
@@ -326,7 +328,7 @@ public class SaverImpl implements Saver {
 					 
 					 
                      if(rowNum == 3 + 6*(level-1) && !hasFound) {
-                    	 logger.debug("do not found the msg in the right place");
+                    	 Log.d(TAG,"do not found the msg in the right place");
                     	 
                     	 if(row == null) {
                     		 spreadsheet.createRow(rowNum);
@@ -349,7 +351,7 @@ public class SaverImpl implements Saver {
 							CellRangeAddress cellMerge = new CellRangeAddress(rowNum, rowNum, 8, maxCol);
 							 spreadsheet.addMergedRegion(cellMerge);
 						} catch (Exception e) {
-							logger.error("some issures for creating the merge area");
+							Log.e(TAG,"some issures for creating the merge area");
 						}
                     	 cel.setCellValue(content);
                     	 CellUtil.setAlignment(cel, workbook, CellStyle.ALIGN_CENTER);
@@ -360,7 +362,7 @@ public class SaverImpl implements Saver {
 				}
 				
 				if(!hasFound) {
-					logger.debug("come on, hard work");
+					Log.d(TAG,"come on, hard work");
 					
 					for(int rowNum = 6*(level-1); rowNum <= 6*level; rowNum++) {
 						
@@ -399,20 +401,20 @@ public class SaverImpl implements Saver {
 			workbook.write(out);
 			
 		} catch (FileNotFoundException e) {
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 			e.printStackTrace();
 		}catch (IOException e) {
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 			e.printStackTrace();
 		}catch (Exception e) {
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 			e.printStackTrace();
 		}finally {
 			if(fis!=null) {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					logger.error(e);
+					Log.e(TAG,e.getLocalizedMessage(),e);
 					e.printStackTrace();
 				}
 			}
@@ -421,7 +423,7 @@ public class SaverImpl implements Saver {
 				try {
 					out.close();
 				} catch (IOException e) {
-					logger.error(e);
+					Log.e(TAG,e.getLocalizedMessage(),e);
 					e.printStackTrace();
 				}
 			}
@@ -430,14 +432,14 @@ public class SaverImpl implements Saver {
 				try {
 					workbook.close();
 				} catch (IOException e) {
-					logger.error(e);
+					Log.e(TAG,e.getLocalizedMessage(),e);
 					e.printStackTrace();
 				}
 			}
 			
 		}
 		
-		logger.debug("content has been wrote to file!");
+		Log.d(TAG,"content has been wrote to file!");
 		
 	}
 

@@ -7,11 +7,9 @@ import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
+import android.util.Log;
 import nz.ara.game.bean.maze.MazeBean;
 import nz.ara.game.em.constvalue.Const;
-import nz.ara.game.logger.MyLogger;
 import nz.ara.game.model.em.direction.Direction;
 import nz.ara.game.model.impl.loadable.LoadableImpl;
 import nz.ara.game.model.impl.point.PointImpl;
@@ -29,8 +27,10 @@ import nz.ara.game.util.tools.UtilTools;
  *
  */
 public class GameImpl implements Game {
-	
-	Logger logger = new MyLogger().getLogger(GameImpl.class);
+
+	private static final String TAG = "GameImpl";
+
+	//Logger logger = new MyLogger().getLogger(GameImpl.class);
 	
 	private int level = -1;
 	
@@ -84,7 +84,7 @@ public class GameImpl implements Game {
 		
 		if(loadType == null) {
 			if(!this.loadGameByFile(this.level)) {
-				logger.debug("Load from string");
+				Log.d(TAG,"Load from string");
 				
 				this.loadGameByString(this.level);
 			}
@@ -93,7 +93,7 @@ public class GameImpl implements Game {
 		}else if(loadType.equals(Const.LOAD_BY_STR)) {
 			this.loadGameByString(this.level);
 		}else {
-			logger.error("no match load style");
+			Log.e(TAG,"no match load style");
 		}
 		
 		try {
@@ -101,7 +101,7 @@ public class GameImpl implements Game {
 			//as the game msg may change time by time
 			this.mazeBean = (MazeBean) UtilTools.copyObj(loadable.getMazeBean());
 		} catch (Exception e) {
-			logger.error("has error when copy from loadable mazebean",e);
+			Log.e(TAG,"has error when copy from loadable mazebean",e);
 		}
 		
 		this.stepWidth = loadable.getStepWidth();
@@ -135,7 +135,7 @@ public class GameImpl implements Game {
 			loadable.loadByFile();
 			isLoaded = true;
 		} catch (FileNotFoundException e) {
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 		}
 		
 		return isLoaded;
@@ -144,14 +144,13 @@ public class GameImpl implements Game {
 	/**
 	 * 21. load by string
 	 * @param theLevel
-	 * @param string
 	 */
 	public void loadGameByString(int theLevel) {
 		this.moveCount = 0;
 		loadable = new LoadableImpl(theLevel, this.filePath);
 		
 		String levelString = this.getLevelStringByConst(this.level);
-		logger.debug("Load from string: " + levelString);
+		Log.d(TAG,"Load from string: " + levelString);
 		loadable.loadByString(levelString);
 	}
 	
@@ -170,7 +169,7 @@ public class GameImpl implements Game {
 			saver.save(saveable);
 		} catch (Exception e) {
 			isSucess = false;
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 		}
 		
 		return isSucess;
@@ -201,7 +200,7 @@ public class GameImpl implements Game {
 		//18. Stops after kills
 		//19. Stops after exits
 		if(!this.status.equals(Const.STATUS_PLAY)) {
-			logger.error("moveMinotaur error status:" + this.status);
+			Log.e(TAG,"moveMinotaur error status:" + this.status);
 			return;
 		}
 		
@@ -271,7 +270,7 @@ public class GameImpl implements Game {
 				}
 				
 				if(this.checkEaten()) {
-					logger.debug("Killed!");
+					Log.d(TAG,"Killed!");
 		    		this.minotaur.setHasEaten(true);
 		    		this.status = Const.STATUS_EATEN;
 				}
@@ -300,7 +299,7 @@ public class GameImpl implements Game {
 				
 				//12. Minotaur kills Theseus
 				if(this.checkEaten()) {
-					logger.debug("Killed!");
+					Log.d(TAG,"Killed!");
 		    		this.minotaur.setHasEaten(true);
 		    		this.status = Const.STATUS_EATEN;
 				}
@@ -340,7 +339,7 @@ public class GameImpl implements Game {
 				}
 				
 				if(this.checkEaten()) {
-					logger.debug("Killed!");
+					Log.d(TAG,"Killed!");
 		    		this.minotaur.setHasEaten(true);
 		    		this.status = Const.STATUS_EATEN;
 				}
@@ -365,7 +364,7 @@ public class GameImpl implements Game {
 				}
 				
 				if(this.checkEaten()) {
-					logger.debug("Killed!");
+					Log.d(TAG,"Killed!");
 		    		this.minotaur.setHasEaten(true);
 		    		this.status = Const.STATUS_EATEN;
 				}
@@ -394,7 +393,7 @@ public class GameImpl implements Game {
 		//18. Stops after kills
 		//19. Stops after exits
 		if(!this.status.equals(Const.STATUS_PLAY)) {
-			logger.error("moveTheseus error status:" + this.status);
+			Log.e(TAG,"moveTheseus error status:" + this.status);
 			return;
 		}
 		
@@ -409,13 +408,13 @@ public class GameImpl implements Game {
 		
         if(direction.equals(Direction.PAUSE)) {
         	//7. Theseus pauses
-        	logger.debug(Direction.PAUSE);
+        	Log.d(TAG,"Direction:" + Direction.PAUSE);
 			
         	//this.moveMinotaur();
 			
 		}else if(direction.equals(Direction.UP)) {
 			//3. Theseus moves UP
-			logger.debug(Direction.UP);
+			Log.d(TAG,"Direction:" + Direction.UP);
 			//17. No Theseus moving through a wall – not a valid move
 			if(this.checkCanMoveUpOrDown(currentPoint)) {
 				nextAcross = currentPoint.across() + Direction.UP.getAcross()*this.stepHeight;
@@ -430,7 +429,7 @@ public class GameImpl implements Game {
 				//this.moveMinotaur();
 				//13. Theseus wins/escapes
 				if(this.cheackExit(position)) {
-					logger.debug("Win!");
+					Log.d(TAG,"Win!");
 		    		this.theseus.setHasWon(true);
 		    		this.status = Const.STATUS_WIN;
 				}
@@ -438,7 +437,7 @@ public class GameImpl implements Game {
 			
 		}else if(direction.equals(Direction.DOWN)) {
 			//6. Theseus moves DOWN
-			logger.debug(Direction.DOWN);
+			Log.d(TAG,"Direction:" + Direction.DOWN);
 		    nextAcross = currentPoint.across() + Direction.DOWN.getAcross()*this.stepHeight;
 			nextDepth = currentPoint.down() + Direction.DOWN.getDown()*this.stepHeight;
 			
@@ -451,7 +450,7 @@ public class GameImpl implements Game {
 				//this.moveMinotaur();
 				
 				if(this.cheackExit(position)) {
-					logger.debug("Win!");
+					Log.d(TAG,"Win!");
 		    		this.theseus.setHasWon(true);
 		    		this.status = Const.STATUS_WIN;
 				}
@@ -460,7 +459,7 @@ public class GameImpl implements Game {
 			
 		}else if(direction.equals(Direction.LEFT)) {
 			//4. Theseus moves LEFT
-			logger.debug(Direction.LEFT);
+			Log.d(TAG,"Direction:" + Direction.LEFT);
 			if(this.checkCanMoveLeftOrRight(currentPoint)) {
 				nextAcross = currentPoint.across() + Direction.LEFT.getAcross()*this.stepWidth;
 				nextDepth = currentPoint.down() + Direction.LEFT.getDown()*this.stepWidth;
@@ -472,7 +471,7 @@ public class GameImpl implements Game {
 				//this.moveMinotaur();
 				
 				if(this.cheackExit(position)) {
-					logger.debug("Win!");
+					Log.d(TAG,"Win!");
 		    		this.theseus.setHasWon(true);
 		    		this.status = Const.STATUS_WIN;
 				}
@@ -480,7 +479,7 @@ public class GameImpl implements Game {
 			
 		}else if(direction.equals(Direction.RIGHT)) {
 			//5. Theseus moves RIGHT
-			logger.debug(Direction.RIGHT);
+			Log.d(TAG,"Direction:" + Direction.RIGHT);
 			nextAcross = currentPoint.across() + Direction.RIGHT.getAcross()*this.stepWidth;
 			nextDepth = currentPoint.down() + Direction.RIGHT.getDown()*this.stepWidth;
 			
@@ -492,14 +491,14 @@ public class GameImpl implements Game {
 				//this.moveMinotaur();
 				
 				if(this.cheackExit(position)) {
-					logger.debug("Win!");
+					Log.d(TAG,"Win!");
 		    		this.theseus.setHasWon(true);
 		    		this.status = Const.STATUS_WIN;
 				}
 			}
 			
 		}else {
-			logger.error("cannot match your direction!");
+			Log.e(TAG,"cannot match your direction!");
 		}
 		
 		
@@ -519,7 +518,7 @@ public class GameImpl implements Game {
 			Point p = iter.next();
 			
 			if(tp.across()==p.across() && tp.down()==p.down()) {
-				logger.debug("Wall! Cannot move:" + tp.across() + "," + tp.down());
+				Log.d(TAG,"Wall! Cannot move:" + tp.across() + "," + tp.down());
 				return false;
 			}
 			
@@ -542,7 +541,7 @@ public class GameImpl implements Game {
 			Point p = iter.next();
 			
 			if(tp.across()==p.across() && tp.down()==p.down()) {
-				logger.debug("Wall! Cannot move:" + tp.across() + "," + tp.down());
+				Log.d(TAG,"Wall! Cannot move:" + tp.across() + "," + tp.down());
 				return false;
 			}
 			

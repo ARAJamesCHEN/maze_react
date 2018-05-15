@@ -6,9 +6,7 @@ package nz.ara.game.model.impl.saveable;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
-import nz.ara.game.logger.MyLogger;
+import android.util.Log;
 import nz.ara.game.model.em.wall.Wall;
 import nz.ara.game.model.impl.game.GameImpl;
 import nz.ara.game.model.in.point.Point;
@@ -18,8 +16,9 @@ import nz.ara.game.model.in.point.Point;
  *
  */
 public class SaveableImpl implements nz.ara.game.model.in.saveable.Saveable {
-	
-	Logger logger = new MyLogger().getLogger(SaveableImpl.class);
+
+	private static final String TAG = "SaveableImpl";
+	//Logger logger = new MyLogger().getLogger(SaveableImpl.class);
 	
 	private GameImpl gameImpl;
 	

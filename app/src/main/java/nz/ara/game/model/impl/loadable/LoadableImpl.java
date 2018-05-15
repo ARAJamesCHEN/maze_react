@@ -8,8 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-//import org.apache.log4j.Logger;
-import org.apache.logging.log4j.Logger;
+import android.util.Log;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -28,8 +27,9 @@ import nz.ara.game.util.tools.UtilTools;
  *
  */
 public class LoadableImpl implements Loadable {
-	
-	Logger logger = new MyLogger().getLogger(LoadableImpl.class);
+
+	private static final String TAG = "LoadableImpl";
+	//Logger logger = new MyLogger().getLogger(LoadableImpl.class);
 	
 	private int level;
 	
@@ -66,7 +66,7 @@ public class LoadableImpl implements Loadable {
     public void load(int theLevel){
     	//read the level msg from the file
     	//U=oxxxo,xoxoo,xoxoo,oxxxo;L=oooo,xoxo,oxoo,oooo,xxxo;M=2,0;T=2,2;E=0,1:
-    	logger.debug("levelString:" + levelString);
+    	Log.d(TAG,"levelString:" + levelString);
     	
     	String[] levelStrArray = levelString.split(";");
     	
@@ -81,22 +81,22 @@ public class LoadableImpl implements Loadable {
     	for(String str: levelStrArray) {
     		if(str.contains("B=")) {
     			beginString = str;
-    			logger.debug("beginString:" + beginString);
+    			Log.d(TAG,"beginString:" + beginString);
     		}else if(str.contains("U=")) {
     			wallUPString = str;
-    			logger.debug("wallUPString:" + wallUPString);
+    			Log.d(TAG,"wallUPString:" + wallUPString);
     		}else if(str.contains("L=")) {
     			wallLeftString = str;
-    			logger.debug("wallLeftString:" + wallLeftString);
+    			Log.d(TAG,"wallLeftString:" + wallLeftString);
     		}else if(str.contains("M=")) {
     			minString = str;
-    			logger.debug("minString:" + minString);
+    			Log.d(TAG,"minString:" + minString);
     		}else if(str.contains("T=")) {
     			theString = str;
-    			logger.debug("theString:" + theString);
+    			Log.d(TAG,"theString:" + theString);
     		}else if(str.contains("E=")) {
     			exitString = str;
-    			logger.debug("exitString:" + exitString);
+    			Log.d(TAG,"exitString:" + exitString);
     		}
     	}
     	
@@ -120,7 +120,7 @@ public class LoadableImpl implements Loadable {
     	if(!UtilTools.isBlank(wallLeftString) && exitString.contains(":")) {
     		exitString = exitString.replace(":", "");
     	}
-    	logger.debug("exitString:" + exitString);
+    	Log.d(TAG,"exitString:" + exitString);
     	
     	Point minStPoint = this.extractPointFromString(minString);
     	this.addMinotaur(minStPoint);
@@ -167,7 +167,7 @@ public class LoadableImpl implements Loadable {
     				}else if(UtilTools.equal(wallType, Const.LEFT.name())) {
     					this.addWallLeft(point);
     				}else {
-    					logger.error("processWalls has error");
+    					Log.e(TAG,"processWalls has error");
     					
     				}
     				
@@ -301,12 +301,12 @@ public class LoadableImpl implements Loadable {
 		    }
 		    
 	    } catch (FileNotFoundException e) {
-			logger.error(absoluteFilePath + ", FileNotFoundException",e);
+			Log.e(TAG,absoluteFilePath + ", FileNotFoundException",e);
 	    	throw e;
 		} catch (IOException e) {
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 		} catch (Exception e) {
-			logger.error(e);
+			Log.e(TAG,e.getLocalizedMessage(),e);
 		}finally {
 			try {
 				if(fis!=null) {
@@ -317,7 +317,7 @@ public class LoadableImpl implements Loadable {
 					workbook.close();
 				}
 			} catch (Exception e) {
-				logger.error(e);
+				Log.e(TAG,e.getLocalizedMessage(),e);
 			}
 			
 			
