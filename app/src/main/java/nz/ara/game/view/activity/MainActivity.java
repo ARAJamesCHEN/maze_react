@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.example.yac0105.game.R;
 
+import nz.ara.game.view.views.MapView;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

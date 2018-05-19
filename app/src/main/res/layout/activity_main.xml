@@ -23,10 +23,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <!--nz.ara.game.view.views.MapView
+            <nz.ara.game.view.views.MapView
+                id="@+id/mapview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#ffffff" /-->
+                android:background="#ffffff">
+            </nz.ara.game.view.views.MapView>
 
         </FrameLayout>
 
@@ -38,7 +40,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:entries="@{mainViewModel.levels}"
+            android:entries="@array/level_arrays"
             android:prompt="@string/level_prompt"
             app:layout_constraintBottom_toTopOf="@+id/button_new"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,28 +106,25 @@
             android:id="@+id/textView_move_name"
             android:layout_width="85dp"
             android:layout_height="28dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/text_mvcount_name"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="113dp"
             android:layout_height="27dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="0"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView_move_name"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView_move_name" />
+            app:layout_constraintStart_toEndOf="@+id/textView_move_name"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"

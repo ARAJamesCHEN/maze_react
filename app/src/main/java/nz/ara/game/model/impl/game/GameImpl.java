@@ -73,6 +73,13 @@ public class GameImpl implements Game {
 		this.level = level;
 		this.setUp(loadType);
 	}
+
+	public GameImpl(int level, int stepWidth, int stepHeight){
+		this.stepWidth = stepWidth;
+		this.stepHeight = stepHeight;
+		this.level = level;
+		this.setUp(null);
+	}
 	
 	private String setUp(Const loadType) {
 		
@@ -99,7 +106,7 @@ public class GameImpl implements Game {
 		try {
 			//to keep the loadable side and game side independent 
 			//as the game msg may change time by time
-			this.mazeBean = (MazeBean) UtilTools.copyObj(loadable.getMazeBean());
+			this.mazeBean = loadable.getMazeBean();//(MazeBean) UtilTools.copyObj(loadable.getMazeBean());
 		} catch (Exception e) {
 			Log.e(TAG,"has error when copy from loadable mazebean",e);
 		}
@@ -130,7 +137,7 @@ public class GameImpl implements Game {
 		
 		boolean isLoaded = false;
 		
-		loadable = new LoadableImpl(theLevel, this.filePath);
+		loadable = new LoadableImpl(theLevel, this.filePath,this.stepWidth, this.stepHeight);
 		try {
 			loadable.loadByFile();
 			isLoaded = true;
@@ -147,7 +154,7 @@ public class GameImpl implements Game {
 	 */
 	public void loadGameByString(int theLevel) {
 		this.moveCount = 0;
-		loadable = new LoadableImpl(theLevel, this.filePath);
+		loadable = new LoadableImpl(theLevel, this.filePath,this.stepWidth, this.stepHeight);
 		
 		String levelString = this.getLevelStringByConst(this.level);
 		Log.d(TAG,"Load from string: " + levelString);

@@ -50,6 +50,14 @@ public class LoadableImpl implements Loadable {
     	this.absoluteFilePath = absoluteFilePath;
         this.mazeBean.setLevel(level);
     }
+
+	public LoadableImpl(int level, String absoluteFilePath,int stepWidth, int stepHeight) {
+		this.level = level;
+		this.absoluteFilePath = absoluteFilePath;
+		this.mazeBean.setLevel(level);
+		this.stepWidth = stepWidth;
+		this.stepHeight = stepHeight;
+	}
     
     public void loadByFile() throws FileNotFoundException {
     	this.levelString = this.readLevelStringByFile(this.level);

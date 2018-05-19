@@ -26,10 +26,9 @@ android {
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
-        exclude 'android/databinding/DataBinderMapper.java'
-        exclude 'android/databinding/DataBindingComponent.java'
-        exclude 'android/databinding/DynamicUtil.java'
-        exclude 'com.android.support:support-annotations:27.1.1'
+        //exclude 'android/databinding/DataBinderMapper.java'
+        //exclude 'android/databinding/DataBindingComponent.java'
+        //exclude 'android/databinding/DynamicUtil.java'
     }
 
     dataBinding {
@@ -38,6 +37,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //implementation 'com.android.support:support-annotations:26.1.0'
     implementation "com.android.support:appcompat-v7:26.1.0"
@@ -50,5 +50,5 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi', version: '3.14-beta1'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.14-beta1'
     implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.14-beta1'
-    implementation 'com.kelin.mvvmlight:library:1.0.0'
+    //implementation 'com.kelin.mvvmlight:library:1.0.0'
 }
