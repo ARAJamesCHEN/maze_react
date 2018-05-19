@@ -28,6 +28,8 @@ import nz.ara.game.model.util.tools.UtilTools;
  */
 public class GameImpl implements Game {
 
+	private String[] levels = {"Level-1","Level-2","Level-3","Level-4","Level-5","Level-6","Level-7","Level-8","Level-8","Level-10"};
+
 	private static final String TAG = "GameImpl";
 	
 	private int level = -1;
@@ -677,4 +679,11 @@ public class GameImpl implements Game {
 		this.moveCount = moveCount;
 	}
 
+	public String[] getLevels() {
+		return levels;
+	}
+
+	public void setLevels(String[] levels) {
+		this.levels = levels;
+	}
 }
