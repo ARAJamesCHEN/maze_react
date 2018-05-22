@@ -168,10 +168,10 @@ public class MapView extends View {
             int pointX = Integer.parseInt(pointStrArray[0]);
             int pointY = Integer.parseInt(pointStrArray[1]);
 
-            int left = startPointX + pointX*this.stepWidthX - this.stepWidthX/2;
-            int top =  startPointY + pointY*this.stepWidthX - this.stepWidthY/2;
-            int right = startPointX + pointX*this.stepWidthX + this.stepWidthX/2;
-            int bottom = startPointY + pointY*this.stepWidthX + this.stepWidthY/2;
+            int left = startPointX + pointX*this.stepWidthX - this.stepWidthX/2 + 5;
+            int top =  startPointY + pointY*this.stepWidthX - this.stepWidthY/2 + 5;
+            int right = startPointX + pointX*this.stepWidthX + this.stepWidthX/2 - 5;
+            int bottom = startPointY + pointY*this.stepWidthX + this.stepWidthY/2 - 5;
 
             Rect rectangle = new Rect(left,top,right,bottom);
 
@@ -246,4 +246,5 @@ public class MapView extends View {
     public void setMinPointStr(String minPointStr) {
         this.minPointStr = minPointStr;
     }
+
 }

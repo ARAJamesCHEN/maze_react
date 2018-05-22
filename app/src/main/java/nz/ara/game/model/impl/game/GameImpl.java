@@ -145,7 +145,7 @@ public class GameImpl implements Game {
 	 */
 	public boolean loadGameByFile(int theLevel) {
 		
-		this.moveCount = 0;
+		//this.moveCount = 0;
 		
 		boolean isLoaded = false;
 		
@@ -165,7 +165,7 @@ public class GameImpl implements Game {
 	 * @param theLevel
 	 */
 	public void loadGameByString(int theLevel) {
-		this.moveCount = 0;
+		//this.moveCount = 0;
 		loadable = new LoadableImpl(theLevel, this.filePath,this.stepWidth, this.stepHeight);
 		
 		String levelString = this.getLevelStringByConst(this.level);

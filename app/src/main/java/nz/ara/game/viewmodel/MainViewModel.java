@@ -7,6 +7,7 @@ import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 
 import com.example.yac0105.game.BR;
@@ -44,6 +45,8 @@ public class MainViewModel  extends BaseObservable {
 
     public final ObservableField<String> minPointStr = new ObservableField<>();
 
+    public final ObservableField<String> moveCount = new ObservableField<String>();
+
     public MainViewModel(Context context, String level_string){
         this.context = context;
 
@@ -60,6 +63,8 @@ public class MainViewModel  extends BaseObservable {
 
         minPointStr.set(gameModel.getMinotaur().getPosition().across()
                 + "," + gameModel.getMinotaur().getPosition().down());
+
+        moveCount.set(String.valueOf(gameModel.getMoveCount()));
     }
 
    @Bindable
