@@ -40,6 +40,10 @@ public class MainViewModel  extends BaseObservable {
 
     public final ObservableField<String> wallSquareStr = new ObservableField<>();
 
+    public final ObservableField<String> thePointStr = new ObservableField<>();
+
+    public final ObservableField<String> minPointStr = new ObservableField<>();
+
     public MainViewModel(Context context, String level_string){
         this.context = context;
 
@@ -51,6 +55,11 @@ public class MainViewModel  extends BaseObservable {
         wallLeftPointListStr.set(this.gameModel.getMazeBean().getWallLeftPointListStr());
         wallAbovePointListStr.set(this.gameModel.getMazeBean().getWallAbovePointListStr());
         wallSquareStr.set(this.gameModel.getMazeBean().getWallSquareStr());
+        thePointStr.set(gameModel.getTheseus().getPosition().across()
+                + "," + gameModel.getTheseus().getPosition().down());
+
+        minPointStr.set(gameModel.getMinotaur().getPosition().across()
+                + "," + gameModel.getMinotaur().getPosition().down());
     }
 
    @Bindable

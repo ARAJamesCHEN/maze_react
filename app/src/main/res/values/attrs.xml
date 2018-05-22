@@ -9,6 +9,10 @@
         <attr name="itemsWallAboveStr" format="string" />
 
         <attr name="wallSquareStr" format="string" />
+
+        <attr name="thePointStr" format="string" />
+
+        <attr name="minPointStr" format="string" />
     </declare-styleable>
 
 

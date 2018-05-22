@@ -2,10 +2,13 @@ package nz.ara.game.view.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +47,10 @@ public class MapView extends View {
     private String itemsWallAboveStr;
 
     private String wallSquareStr;
+
+    private String thePointStr;
+
+    private String minPointStr;
 
     private Paint drawPaint;
 
@@ -115,8 +122,8 @@ public class MapView extends View {
 
         }
 
-        this.stepWidthX = mWidth/(countX);
-        this.stepWidthY = mHeight/(countY);
+        this.stepWidthX = mWidth/(countX+1);
+        this.stepWidthY = mHeight/(countY+1);
 
         this.startPointX = this.stepWidthX;
 
@@ -140,9 +147,9 @@ public class MapView extends View {
                 int drawPointX = startPointX + pointX*this.stepWidthX - this.stepWidthX/2;
                 int drawPointY = startPointY + pointY*this.stepWidthX - this.stepWidthY/2;
 
-                if(type!=null && type.equals("ABOVE")){
+                if(type!=null && type.equals(getResources().getString(R.string.WALL_TYPE_ABOVE))){
                     canvas.drawLine(drawPointX, drawPointY, drawPointX + this.stepWidthX, drawPointY, drawPaint);
-                }else if(type!=null && type.equals("LEFT")){
+                }else if(type!=null && type.equals(getResources().getString(R.string.WALL_TYPE_LEFT))){
                     canvas.drawLine(drawPointX, drawPointY, drawPointX, drawPointY + this.stepWidthY, drawPaint);
                 }else{
                     Log.e(TAG, "Error Type:" + type);
@@ -153,12 +160,50 @@ public class MapView extends View {
         }
     }
 
+    private void drapRole(Canvas canvas, String pointStr, String type){
+        if(pointStr!=null && pointStr.trim().length()>0){
+
+            String[] pointStrArray = pointStr.split(",");
+
+            int pointX = Integer.parseInt(pointStrArray[0]);
+            int pointY = Integer.parseInt(pointStrArray[1]);
+
+            int left = startPointX + pointX*this.stepWidthX - this.stepWidthX/2;
+            int top =  startPointY + pointY*this.stepWidthX - this.stepWidthY/2;
+            int right = startPointX + pointX*this.stepWidthX + this.stepWidthX/2;
+            int bottom = startPointY + pointY*this.stepWidthX + this.stepWidthY/2;
+
+            Rect rectangle = new Rect(left,top,right,bottom);
+
+
+            Bitmap bitmap = null;
+
+
+            if(type!=null && type.equals(getResources().getString(R.string.ROLE_TYPE_THESEUS))){
+                bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.theseus);
+
+            }else if(type!=null && type.equals(getResources().getString(R.string.ROLE_TYPE_MINOTAUR))){
+                bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.minotaur);
+            }else{
+                Log.e(TAG, "Error Type:" + type);
+                return;
+            }
+
+            canvas.drawBitmap(bitmap, null, rectangle, null);
+
+
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        this.drawMap(canvas, this.itemsWallAboveStr, "ABOVE");
-        this.drawMap(canvas,this.itemsWallLeftStr, "LEFT");
+        this.drawMap(canvas, this.itemsWallAboveStr, getResources().getString(R.string.WALL_TYPE_ABOVE));
+        this.drawMap(canvas,this.itemsWallLeftStr, getResources().getString(R.string.WALL_TYPE_LEFT));
+
+        this.drapRole(canvas, this.thePointStr, getResources().getString(R.string.ROLE_TYPE_THESEUS));
+        this.drapRole(canvas, this.minPointStr, getResources().getString(R.string.ROLE_TYPE_MINOTAUR));
 
     }
 
@@ -184,5 +229,21 @@ public class MapView extends View {
 
     public void setWallSquareStr(String wallSquareStr) {
         this.wallSquareStr = wallSquareStr;
+    }
+
+    public String getThePointStr() {
+        return thePointStr;
+    }
+
+    public void setThePointStr(String thePointStr) {
+        this.thePointStr = thePointStr;
+    }
+
+    public String getMinPointStr() {
+        return minPointStr;
+    }
+
+    public void setMinPointStr(String minPointStr) {
+        this.minPointStr = minPointStr;
     }
 }

@@ -28,4 +28,14 @@ public class ViewBindingAdapter {
         mapView.setWallSquareStr(wallSquareStr);
     }
 
+    @BindingAdapter("app:thePointStr")
+    public static void setThePointStr(MapView mapView, String wallSquareStr) {
+        mapView.setThePointStr(wallSquareStr);
+    }
+
+    @BindingAdapter("app:minPointStr")
+    public static void setMinPointStr(MapView mapView, String wallSquareStr) {
+        mapView.setMinPointStr(wallSquareStr);
+    }
+
 }

@@ -23,4 +23,9 @@
         <item>Level-9</item>
         <item>Level-10</item>
     </string-array>
+    <string name="WALL_TYPE_ABOVE">ABOVE</string>
+    <string name="WALL_TYPE_LEFT">LEFT</string>
+
+    <string name="ROLE_TYPE_THESEUS">THESEUS</string>
+    <string name="ROLE_TYPE_MINOTAUR">MINOTAUR</string>
 </resources>

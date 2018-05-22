@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MapView mapView;
 
-    private String level_string = "Level-10";
+    private String level_string = "Level-8";
 
     private MainViewModel mainViewModel;
 
