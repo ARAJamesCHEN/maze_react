@@ -24,24 +24,10 @@ public class MazeBean {
 
 	private String wallLeftPointListStr;
 
-	public String getWallLeftPointListStr() {
-		return wallLeftPointListStr;
-	}
-
-	public void setWallLeftPointListStr(String wallLeftPointListStr) {
-		this.wallLeftPointListStr = wallLeftPointListStr;
-	}
-
-	public String getWallAbovePointListStr() {
-		return wallAbovePointListStr;
-	}
-
-	public void setWallAbovePointListStr(String wallAbovePointListStr) {
-		this.wallAbovePointListStr = wallAbovePointListStr;
-	}
-
 	private String wallAbovePointListStr;
-	
+
+	private String wallSquareStr;
+
 	private List<Point> wallAbovePointList = new ArrayList<Point>();
 	
     private Point theStartPoint;
@@ -113,6 +99,29 @@ public class MazeBean {
 	public void setMinStartPoint(Point minStartPoint) {
 		this.minStartPoint = minStartPoint;
 	}
-	
-	
+
+	public String getWallLeftPointListStr() {
+		return wallLeftPointListStr;
+	}
+
+	public void setWallLeftPointListStr(String wallLeftPointListStr) {
+		this.wallLeftPointListStr = wallLeftPointListStr;
+	}
+
+	public String getWallAbovePointListStr() {
+		return wallAbovePointListStr;
+	}
+
+	public void setWallAbovePointListStr(String wallAbovePointListStr) {
+		this.wallAbovePointListStr = wallAbovePointListStr;
+	}
+
+	public String getWallSquareStr() {
+		return wallSquareStr;
+	}
+
+	public void setWallSquareStr(String wallSquareStr) {
+		this.wallSquareStr = wallSquareStr;
+	}
+
 }

@@ -30,6 +30,7 @@
                 android:background="#ffffff"
                 app:itemsWallAboveStr="@{mainViewModel.wallAbovePointListStr}"
                 app:itemsWallLeftStr="@{mainViewModel.wallLeftPointListStr}"
+                app:wallSquareStr="@{mainViewModel.wallSquareStr}"
                 >
             </nz.ara.game.view.views.MapView>
 

@@ -117,6 +117,7 @@ public class GameImpl implements Game {
 
 			this.mazeBean.setWallAbovePointListStr(this.changePointListToStr(this.mazeBean.getWallAbovePointList()));;
 			this.mazeBean.setWallLeftPointListStr(this.changePointListToStr(this.mazeBean.getWallLeftPointList()));
+			this.mazeBean.setWallSquareStr(this.getWallSquareStr(this.level));
 
 		} catch (Exception e) {
 			Log.e(TAG,"has error when copy from loadable mazebean",e);
@@ -631,6 +632,33 @@ public class GameImpl implements Game {
 				return 10;
 			default:
 				return 1;
+		}
+	}
+
+	public String getWallSquareStr(int level) {
+		switch(level) {
+			case 1:
+				return "4,4";
+			case 2:
+				return "8,8";
+			case 3:
+				return "5,5";
+			case 4:
+				return "6,6";
+			case 5:
+				return "8,8";
+			case 6:
+				return "8,8";
+			case 7:
+				return "8,8";
+			case 8:
+				return "11,11";
+			case 9:
+				return "11,11";
+			case 10:
+				return "11,11";
+			default:
+				return "4,4";
 		}
 	}
 
