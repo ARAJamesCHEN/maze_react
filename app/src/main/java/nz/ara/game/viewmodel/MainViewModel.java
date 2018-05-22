@@ -38,18 +38,19 @@ public class MainViewModel  extends BaseObservable {
 
     public final ObservableField<String> wallAbovePointListStr = new ObservableField<>();
 
+    public final ObservableField<String> wallSquareStr = new ObservableField<>();
+
     public MainViewModel(Context context, String level_string){
         this.context = context;
 
         initGameImpl(level_string);
-
-        wallLeftPointListStr.set(this.gameModel.getMazeBean().getWallLeftPointListStr());
-        wallAbovePointListStr.set(this.gameModel.getMazeBean().getWallAbovePointListStr());
-
     }
 
     public void initGameImpl(String level_string){
         gameModel = new GameImpl(level_string);
+        wallLeftPointListStr.set(this.gameModel.getMazeBean().getWallLeftPointListStr());
+        wallAbovePointListStr.set(this.gameModel.getMazeBean().getWallAbovePointListStr());
+        wallSquareStr.set(this.gameModel.getMazeBean().getWallSquareStr());
     }
 
    @Bindable

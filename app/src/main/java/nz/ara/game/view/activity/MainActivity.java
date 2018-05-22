@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MapView mapView;
 
-    private String level_string = "Level-1";
+    private String level_string = "Level-10";
 
     private MainViewModel mainViewModel;
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                level_string = (String) level_spinner.getSelectedItem();
+                //level_string = (String) level_spinner.getSelectedItem();
 
             }
 

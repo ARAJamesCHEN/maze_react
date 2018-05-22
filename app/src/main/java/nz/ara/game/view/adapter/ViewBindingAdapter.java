@@ -23,4 +23,9 @@ public class ViewBindingAdapter {
         mapView.setItemsWallLeftStr(wallAbovePointListStr);
     }
 
+    @BindingAdapter("app:wallSquareStr")
+    public static void setWallSquareStr(MapView mapView, String wallSquareStr) {
+        mapView.setWallSquareStr(wallSquareStr);
+    }
+
 }

@@ -43,6 +43,8 @@ public class MapView extends View {
 
     private String itemsWallAboveStr;
 
+    private String wallSquareStr;
+
     private Paint drawPaint;
 
     private Path path = new Path();
@@ -103,10 +105,20 @@ public class MapView extends View {
         int countX = 4;
         int countY = 4;
 
-        this.stepWidthX = mWidth/(countX+1);
-        this.stepWidthY = mHeight/(countY+1);
+        if(wallSquareStr!=null && wallSquareStr.trim().length()>0){
+            Log.d(TAG, "Wall suare:" + wallSquareStr);
 
-        this.startPointX = this.stepWidthX/2;
+            String[] wallSqurArray = wallSquareStr.split(",");
+
+            countX = Integer.parseInt(wallSqurArray[0]);
+            countY = Integer.parseInt(wallSqurArray[1]);
+
+        }
+
+        this.stepWidthX = mWidth/(countX);
+        this.stepWidthY = mHeight/(countY);
+
+        this.startPointX = this.stepWidthX;
 
         this.startPointY = 30 + this.stepWidthY/2;
 
@@ -164,5 +176,13 @@ public class MapView extends View {
 
     public void setItemsWallAboveStr(String itemsWallAboveStr) {
         this.itemsWallAboveStr = itemsWallAboveStr;
+    }
+
+    public String getWallSquareStr() {
+        return wallSquareStr;
+    }
+
+    public void setWallSquareStr(String wallSquareStr) {
+        this.wallSquareStr = wallSquareStr;
     }
 }
