@@ -21,6 +21,26 @@ public class MazeBean {
 	private int depthDown;
 	
 	private List<Point> wallLeftPointList = new ArrayList<Point>();
+
+	private String wallLeftPointListStr;
+
+	public String getWallLeftPointListStr() {
+		return wallLeftPointListStr;
+	}
+
+	public void setWallLeftPointListStr(String wallLeftPointListStr) {
+		this.wallLeftPointListStr = wallLeftPointListStr;
+	}
+
+	public String getWallAbovePointListStr() {
+		return wallAbovePointListStr;
+	}
+
+	public void setWallAbovePointListStr(String wallAbovePointListStr) {
+		this.wallAbovePointListStr = wallAbovePointListStr;
+	}
+
+	private String wallAbovePointListStr;
 	
 	private List<Point> wallAbovePointList = new ArrayList<Point>();
 	

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="MapView">
+        <!-- require List<Point> bind to MapView to presentation.-->
+        <attr name="itemsWallLeftStr" format="string"/>
+
+        <!-- require List<Point> bind to MapView to presentation.-->
+        <attr name="itemsWallAboveStr" format="string" />
+    </declare-styleable>
+
+
 </resources>
