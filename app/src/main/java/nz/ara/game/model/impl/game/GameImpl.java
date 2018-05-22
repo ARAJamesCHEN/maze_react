@@ -28,7 +28,7 @@ import nz.ara.game.model.util.tools.UtilTools;
  */
 public class GameImpl implements Game {
 
-	private String[] levels = {"Level-1","Level-2","Level-3","Level-4","Level-5","Level-6","Level-7","Level-8","Level-8","Level-10"};
+	private String[] levels = {"Level-1","Level-2","Level-3","Level-4","Level-5","Level-6","Level-7","Level-8","Level-9","Level-10"};
 
 	private static final String TAG = "GameImpl";
 	
@@ -80,6 +80,13 @@ public class GameImpl implements Game {
 		this.level = level;
 		this.setUp(null);
 	}
+
+	public GameImpl(String level_string){
+
+		this.level = getLevelByLevelStr(level_string);
+
+		this.setUp(null);
+	}
 	
 	private String setUp(Const loadType) {
 		
@@ -107,6 +114,10 @@ public class GameImpl implements Game {
 			//to keep the loadable side and game side independent 
 			//as the game msg may change time by time
 			this.mazeBean = loadable.getMazeBean();//(MazeBean) UtilTools.copyObj(loadable.getMazeBean());
+
+			this.mazeBean.setWallAbovePointListStr(this.changePointListToStr(this.mazeBean.getWallAbovePointList()));;
+			this.mazeBean.setWallLeftPointListStr(this.changePointListToStr(this.mazeBean.getWallLeftPointList()));
+
 		} catch (Exception e) {
 			Log.e(TAG,"has error when copy from loadable mazebean",e);
 		}
@@ -595,6 +606,49 @@ public class GameImpl implements Game {
     	    	return Const.LEVEL_ONE.getValue();
     	}
     }
+
+	public int getLevelByLevelStr(String levelStr) {
+		switch(levelStr) {
+			case "Level-1":
+				return 1;
+			case "Level-2":
+				return 2;
+			case "Level-3":
+				return 3;
+			case "Level-4":
+				return 4;
+			case "Level-5":
+				return 5;
+			case "Level-6":
+				return 6;
+			case "Level-7":
+				return 7;
+			case "Level-8":
+				return 8;
+			case "Level-9":
+				return 9;
+			case "Level-10":
+				return 10;
+			default:
+				return 1;
+		}
+	}
+
+	private String changePointListToStr(List<Point> wallPoints){
+
+		String result = "";
+
+		for(int i= 0; i<wallPoints.size(); i++){
+			result+= wallPoints.get(i).across() + "," + wallPoints.get(i).down();
+
+			if(i != (wallPoints.size()-1)){
+				result+="|";
+			}
+
+		}
+
+		return result;
+	}
 
 	public int getLevel() {
 		return level;
