@@ -19,9 +19,11 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            tools:context="nz.ara.game.view.activity.MainActivity"
             app:layout_constraintBottom_toTopOf="@+id/button_reset"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            >
 
             <nz.ara.game.view.views.MapView
                 id="@+id/mapview"

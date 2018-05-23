@@ -54,7 +54,17 @@ public class MainViewModel  extends BaseObservable {
     }
 
     public void initGameImpl(String level_string){
-        gameModel = new GameImpl(level_string);
+        if(gameModel == null){
+            gameModel = new GameImpl(level_string);
+        }else{
+            gameModel.reLoad(level_string);
+        }
+
+        initParas();
+
+    }
+
+    private void initParas(){
         wallLeftPointListStr.set(this.gameModel.getMazeBean().getWallLeftPointListStr());
         wallAbovePointListStr.set(this.gameModel.getMazeBean().getWallAbovePointListStr());
         wallSquareStr.set(this.gameModel.getMazeBean().getWallSquareStr());

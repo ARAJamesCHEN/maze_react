@@ -208,6 +208,13 @@ public class GameImpl implements Game {
 		
 		this.setUp(null);
 	}
+
+	public void reLoad(String aNewLevelStr) {
+
+		int aNewLevel = this.getLevelByLevelStr(aNewLevelStr);
+
+		this.reLoad(aNewLevel);
+	}
 	
 	
 	/* (non-Javadoc)

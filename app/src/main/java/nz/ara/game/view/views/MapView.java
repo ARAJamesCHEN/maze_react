@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -55,10 +56,6 @@ public class MapView extends View {
     private Paint drawPaint;
 
     private Path path = new Path();
-
-    public MapView(Context context) {
-        super(context);
-    }
 
     public MapView(Context context, AttributeSet attrs){
         super(context,attrs );
@@ -205,6 +202,14 @@ public class MapView extends View {
         this.drapRole(canvas, this.thePointStr, getResources().getString(R.string.ROLE_TYPE_THESEUS));
         this.drapRole(canvas, this.minPointStr, getResources().getString(R.string.ROLE_TYPE_MINOTAUR));
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+
+
+
+        return true;
     }
 
     public String getItemsWallLeftStr() {

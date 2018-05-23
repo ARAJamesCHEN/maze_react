@@ -38,9 +38,5 @@ public class ViewBindingAdapter {
         mapView.setMinPointStr(wallSquareStr);
     }
 
-    /*@BindingAdapter("android:text")
-    public static void setText(MapView mapView, String wallSquareStr) {
-        mapView.setMinPointStr(wallSquareStr);
-    }*/
 
 }
