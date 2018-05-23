@@ -6,7 +6,9 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -23,15 +25,23 @@ public class MainActivity extends AppCompatActivity {
 
     private MapView mapView;
 
-    private String level_string = "Level-8";
+    private String level_string = "Level-1";
 
     private MainViewModel mainViewModel;
+
+    private Context context;
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        context = this;
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        mapView = findViewById(R.id.mapview);
 
         level_spinner = (Spinner) findViewById(R.id.level_spinner);
 
@@ -41,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                //level_string = (String) level_spinner.getSelectedItem();
+                level_string = (String) level_spinner.getSelectedItem();
 
+                if(mainViewModel == null){
+                    mainViewModel = new MainViewModel(context,level_string);
+                }else{
+                    mainViewModel.initGameImpl(level_string);
+
+                    //findViewById(R.id.mapview).invalidate();
+                }
             }
 
             @Override
@@ -52,15 +69,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //mapView = findViewById(R.id.mapview);
-
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        mainViewModel = new MainViewModel(this,level_string);
-
-        //mapView.setWallAbovePointList(mainViewModel.getGameModel().getMazeBean().getWallAbovePointList());
-        //mapView.setWallLeftPointList(mainViewModel.getGameModel().getMazeBean().getWallLeftPointList());
+        if(mainViewModel == null){
+            mainViewModel = new MainViewModel(this,level_string);
+        }
 
         binding.setMainViewModel(mainViewModel);
 
