@@ -651,7 +651,7 @@ public class GameImpl implements Game {
 			case 3:
 				return "5,5";
 			case 4:
-				return "6,6";
+				return "7,7";
 			case 5:
 				return "8,8";
 			case 6:

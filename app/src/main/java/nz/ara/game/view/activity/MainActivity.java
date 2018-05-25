@@ -43,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         mapView = findViewById(R.id.mapview);
 
-        level_spinner = (Spinner) findViewById(R.id.level_spinner);
+        if(mapView == null){
+            FrameLayout f = findViewById(R.id.frameLayout);
+
+            mapView = (MapView)f.getChildAt(0);
+        }
+
+        level_spinner = findViewById(R.id.level_spinner);
 
         level_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -51,15 +57,19 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                level_string = (String) level_spinner.getSelectedItem();
+                String aNewlevel_string = (String) level_spinner.getSelectedItem();
 
-                if(mainViewModel == null){
-                    mainViewModel = new MainViewModel(context,level_string);
-                }else{
-                    mainViewModel.initGameImpl(level_string);
+                if(!level_string.equals(aNewlevel_string)){
+                    level_string = aNewlevel_string;
+                    if(mainViewModel == null){
+                        mainViewModel = new MainViewModel(context,aNewlevel_string);
+                    }else{
+                        mainViewModel.initGameImpl(aNewlevel_string);
 
-                    //findViewById(R.id.mapview).invalidate();
+                        mapView.invalidate();
+                    }
                 }
+
             }
 
             @Override

@@ -57,6 +57,9 @@ public class MapView extends View {
 
     private Path path = new Path();
 
+    private int mHeight = this.getMeasuredHeight();
+    private int mWidth = this.getMeasuredHeight();
+
     public MapView(Context context, AttributeSet attrs){
         super(context,attrs );
 
@@ -72,7 +75,7 @@ public class MapView extends View {
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
 
-        setWillNotDraw(false);
+        //setWillNotDraw(false);
     }
 
     @Override
@@ -103,9 +106,13 @@ public class MapView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
 
-        int mHeight = this.getMeasuredHeight();
-        int mWidth = this.getMeasuredHeight();
+        mHeight = this.getMeasuredHeight();
+        mWidth = this.getMeasuredHeight();
 
+
+    }
+
+    private void  calParas(){
         int countX = 4;
         int countY = 4;
 
@@ -119,15 +126,14 @@ public class MapView extends View {
 
         }
 
-        this.stepWidthX = mWidth/(countX+1);
-        this.stepWidthY = mHeight/(countY+1);
+        this.stepWidthX = mWidth/(countX);
+        this.stepWidthY = mHeight/(countY);
 
         this.startPointX = this.stepWidthX;
 
-        this.startPointY = 30 + this.stepWidthY/2;
-
-
+        this.startPointY = 33 + this.stepWidthY/2;
     }
+
 
     private void drawMap(Canvas canvas, String wallStr, String type){
         if(wallStr!=null && wallStr.trim().length()>0){
@@ -195,6 +201,8 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        this.calParas();
 
         this.drawMap(canvas, this.itemsWallAboveStr, getResources().getString(R.string.WALL_TYPE_ABOVE));
         this.drawMap(canvas,this.itemsWallLeftStr, getResources().getString(R.string.WALL_TYPE_LEFT));
