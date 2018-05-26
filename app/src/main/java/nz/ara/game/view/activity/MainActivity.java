@@ -6,24 +6,37 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.example.yac0105.game.R;
 import com.example.yac0105.game.databinding.ActivityMainBinding;
 
 import nz.ara.game.view.views.MapView;
+import nz.ara.game.view.views.RoleView;
 import nz.ara.game.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     private Spinner level_spinner;
 
     private MapView mapView;
+
+    private RoleView theView;
+
+    private RoleView minView;
+
+    private TextView textViewName;
 
     private String level_string = "Level-1";
 
@@ -32,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
 
     private ActivityMainBinding binding;
+
+    private int rolePointXShort = 100;
+
+    private int rolePointXLong = 100;
+
+    private int rolePointYShort = 200;
+
+    private int rolePointYLong = 200;
+
+    private float startX;
+    private float startY;
+    private int offsetsByX;
+    private int offsetsByY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +73,49 @@ public class MainActivity extends AppCompatActivity {
             FrameLayout f = findViewById(R.id.frameLayout);
 
             mapView = (MapView)f.getChildAt(0);
+
+            theView = (RoleView)f.getChildAt(1);
+
+            minView = (RoleView)f.getChildAt(2);
+
+            theView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    rolePointXShort = theView.getRolePointXShort();
+                    rolePointXLong = theView.getRolePointXLong();
+                    rolePointYShort = theView.getRolePointYShort();
+                    rolePointYLong = theView.getRolePointYLong();
+
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            startX=event.getX();
+                            startY=event.getY();
+
+                            mainViewModel.move(rolePointXShort,rolePointXLong,rolePointYShort,rolePointYLong,startX,startY);
+                            theView.invalidate();
+
+                            if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+                                minView.bringToFront();
+                            }
+                            minView.invalidate();
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            break;
+                        default:
+                            return false;
+                    }
+
+                    Log.d(TAG, "Touch Event::" + event.getAction());
+                    return true;
+                }
+            });
+
+
         }
+
 
         level_spinner = findViewById(R.id.level_spinner);
 
@@ -65,8 +133,10 @@ public class MainActivity extends AppCompatActivity {
                         mainViewModel = new MainViewModel(context,aNewlevel_string);
                     }else{
                         mainViewModel.initGameImpl(aNewlevel_string);
-
+                        theView.bringToFront();
                         mapView.invalidate();
+                        theView.invalidate();
+                        minView.invalidate();
                     }
                 }
 

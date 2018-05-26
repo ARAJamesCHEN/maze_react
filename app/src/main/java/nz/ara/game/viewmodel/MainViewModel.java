@@ -9,6 +9,9 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.example.yac0105.game.BR;
 import com.example.yac0105.game.R;
@@ -16,6 +19,7 @@ import com.example.yac0105.game.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import nz.ara.game.model.em.direction.Direction;
 import nz.ara.game.model.impl.game.GameImpl;
 import nz.ara.game.model.in.point.Point;
 import nz.ara.game.view.views.MapView;
@@ -24,6 +28,8 @@ import nz.ara.game.view.views.MapView;
  * Created by yac0105 on 18/05/2018.
  */
 public class MainViewModel  extends BaseObservable {
+
+    private static final String TAG = "MainViewModel";
 
     //context
     private Context context;
@@ -44,6 +50,8 @@ public class MainViewModel  extends BaseObservable {
     public final ObservableField<String> thePointStr = new ObservableField<>();
 
     public final ObservableField<String> minPointStr = new ObservableField<>();
+
+    public final ObservableField<String> heightStr = new ObservableField<>();
 
     public final ObservableField<String> moveCount = new ObservableField<String>();
 
@@ -75,6 +83,45 @@ public class MainViewModel  extends BaseObservable {
                 + "," + gameModel.getMinotaur().getPosition().down());
 
         moveCount.set(String.valueOf(gameModel.getMoveCount()));
+    }
+
+    public void move(int rolePointXShort,int rolePointXLong,int rolePointYShort,int rolePointYLong,
+                      float startX,float startY){
+
+        //left
+        if((startX>0 && startX<rolePointXShort) && (startY>rolePointYShort && startY<rolePointYLong)){
+
+            this.gameModel.moveTheseus(Direction.LEFT);
+            this.gameModel.moveMinotaur();
+
+        }
+        //right
+        else if((startX>rolePointXLong) && (startY>rolePointYShort && startY<rolePointYLong)){
+
+            this.gameModel.moveTheseus(Direction.RIGHT);
+            this.gameModel.moveMinotaur();
+
+        }
+        //up
+        else if((startX>rolePointXShort && startX<rolePointXLong) && (startY>0 && startY<rolePointYShort)){
+
+            this.gameModel.moveTheseus(Direction.UP);
+            this.gameModel.moveMinotaur();
+
+        }
+        //down
+        else if((startX>rolePointXShort && startX<rolePointXLong) && (startY>rolePointYLong)){
+
+            this.gameModel.moveTheseus(Direction.DOWN);
+            this.gameModel.moveMinotaur();
+
+        }else{
+            Log.d(TAG, "No Result for rolePointXShort:" + rolePointXShort + ",rolePointXLong: " + rolePointXLong + ",rolePointYShort:" + rolePointYShort
+                    +",rolePointYLong: " + rolePointYLong +",startX:"+ startX +",startY:" + startY);
+        }
+
+        initParas();
+
     }
 
    @Bindable

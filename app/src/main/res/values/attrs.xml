@@ -14,6 +14,16 @@
 
         <attr name="minPointStr" format="string" />
 
+        <attr name="heightStr" format="string" />
+
+    </declare-styleable>
+
+    <declare-styleable name="RoleView">
+
+        <attr name="roleStr" format="string" />
+
+        <attr name="pointStr" format="string" />
+
     </declare-styleable>
 
 

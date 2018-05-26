@@ -1,5 +1,6 @@
 package nz.ara.game.view.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -31,9 +32,6 @@ import nz.ara.game.model.in.point.Point;
 public class MapView extends View {
 
     private static final String TAG = "MapView";
-
-    private float x;
-    private float y;
 
     private int stepWidthX = 100;
 
@@ -74,8 +72,6 @@ public class MapView extends View {
         drawPaint.setStrokeWidth(5);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
-
-        //setWillNotDraw(false);
     }
 
     @Override
@@ -131,9 +127,11 @@ public class MapView extends View {
 
         this.startPointX = this.stepWidthX;
 
-        this.startPointY = 33 + this.stepWidthY/2;
-    }
+        TextView v = ((Activity)getContext()).findViewById(R.id.textView_move_name);
 
+        int hTx = v.getMeasuredHeight();
+        this.startPointY = hTx + 12 + this.stepWidthY/2;
+    }
 
     private void drawMap(Canvas canvas, String wallStr, String type){
         if(wallStr!=null && wallStr.trim().length()>0){
@@ -163,41 +161,6 @@ public class MapView extends View {
         }
     }
 
-    private void drapRole(Canvas canvas, String pointStr, String type){
-        if(pointStr!=null && pointStr.trim().length()>0){
-
-            String[] pointStrArray = pointStr.split(",");
-
-            int pointX = Integer.parseInt(pointStrArray[0]);
-            int pointY = Integer.parseInt(pointStrArray[1]);
-
-            int left = startPointX + pointX*this.stepWidthX - this.stepWidthX/2 + 5;
-            int top =  startPointY + pointY*this.stepWidthX - this.stepWidthY/2 + 5;
-            int right = startPointX + pointX*this.stepWidthX + this.stepWidthX/2 - 5;
-            int bottom = startPointY + pointY*this.stepWidthX + this.stepWidthY/2 - 5;
-
-            Rect rectangle = new Rect(left,top,right,bottom);
-
-
-            Bitmap bitmap = null;
-
-
-            if(type!=null && type.equals(getResources().getString(R.string.ROLE_TYPE_THESEUS))){
-                bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.theseus);
-
-            }else if(type!=null && type.equals(getResources().getString(R.string.ROLE_TYPE_MINOTAUR))){
-                bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.minotaur);
-            }else{
-                Log.e(TAG, "Error Type:" + type);
-                return;
-            }
-
-            canvas.drawBitmap(bitmap, null, rectangle, null);
-
-
-        }
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -207,13 +170,12 @@ public class MapView extends View {
         this.drawMap(canvas, this.itemsWallAboveStr, getResources().getString(R.string.WALL_TYPE_ABOVE));
         this.drawMap(canvas,this.itemsWallLeftStr, getResources().getString(R.string.WALL_TYPE_LEFT));
 
-        this.drapRole(canvas, this.thePointStr, getResources().getString(R.string.ROLE_TYPE_THESEUS));
-        this.drapRole(canvas, this.minPointStr, getResources().getString(R.string.ROLE_TYPE_MINOTAUR));
-
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+
+
 
 
 
