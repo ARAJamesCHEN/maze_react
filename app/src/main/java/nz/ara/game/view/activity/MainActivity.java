@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private RoleView minView;
 
     private TextView textViewName;
+
+    private Button reset;
+
+    private Button pause;
+
+    private Button save;
 
     private String level_string = "Level-1";
 
@@ -82,43 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
 
-                    rolePointXShort = theView.getRolePointXShort();
-                    rolePointXLong = theView.getRolePointXLong();
-                    rolePointYShort = theView.getRolePointYShort();
-                    rolePointYLong = theView.getRolePointYLong();
-
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            startX=event.getX();
-                            startY=event.getY();
-
-                            if(mainViewModel.moveThe(rolePointXShort,rolePointXLong,rolePointYShort,rolePointYLong,startX,startY)){
-                                theView.invalidate();
-                            }
-
-                            if(mainViewModel.moveMin()){
-                                minView.invalidate();
-                            }
-
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            if(mainViewModel.moveMin()){
-                                minView.invalidate();
-                            }
-
-                            break;
-                        default:
-                            return false;
-                    }
-
-                    if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
-                        minView.bringToFront();
-                    }
-
-                    Log.d(TAG, "Touch Event::" + event.getAction());
-                    return true;
+                    return roleViewOnTouched(event);
                 }
             });
 
@@ -134,20 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                String aNewlevel_string = (String) level_spinner.getSelectedItem();
-
-                if(!level_string.equals(aNewlevel_string)){
-                    level_string = aNewlevel_string;
-                    if(mainViewModel == null){
-                        mainViewModel = new MainViewModel(context,aNewlevel_string);
-                    }else{
-                        mainViewModel.initGameImpl(aNewlevel_string);
-                        theView.bringToFront();
-                        mapView.invalidate();
-                        theView.invalidate();
-                        minView.invalidate();
-                    }
-                }
+                spinnerItemSelected();
 
             }
 
@@ -158,6 +116,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        reset = findViewById(R.id.button_reset);
+
+        reset.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resetButtonClicked();
+                }
+            }
+        );
+
+        pause = findViewById(R.id.button_pause);
+
+        pause.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pauseButtonClicked();
+                    }
+                }
+        );
+
+        save = findViewById(R.id.button_save);
+
+        save.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        saveButtonClicked();
+                    }
+                }
+        );
+
+
         if(mainViewModel == null){
             mainViewModel = new MainViewModel(this,level_string);
         }
@@ -165,6 +158,94 @@ public class MainActivity extends AppCompatActivity {
         binding.setMainViewModel(mainViewModel);
 
     }
+
+
+    private boolean roleViewOnTouched(MotionEvent event){
+        rolePointXShort = theView.getRolePointXShort();
+        rolePointXLong = theView.getRolePointXLong();
+        rolePointYShort = theView.getRolePointYShort();
+        rolePointYLong = theView.getRolePointYLong();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startX=event.getX();
+                startY=event.getY();
+
+                if(mainViewModel.moveThe(rolePointXShort,rolePointXLong,rolePointYShort,rolePointYLong,startX,startY)){
+                    theView.invalidate();
+                }
+
+                if(mainViewModel.moveMin()){
+                    minView.invalidate();
+                }
+
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                if(mainViewModel.moveMin()){
+                    minView.invalidate();
+                }
+
+                break;
+            default:
+                return false;
+        }
+
+        if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+            minView.bringToFront();
+        }
+
+        Log.d(TAG, "Touch Event::" + event.getAction());
+        return true;
+    }
+
+
+    /**
+     * spinnerItemSelected
+     */
+    private void spinnerItemSelected(){
+        String aNewlevel_string = (String) level_spinner.getSelectedItem();
+
+        if(!level_string.equals(aNewlevel_string)){
+            level_string = aNewlevel_string;
+            if(mainViewModel == null){
+                mainViewModel = new MainViewModel(context,aNewlevel_string);
+            }else{
+                mainViewModel.initGameImpl(aNewlevel_string);
+                theView.bringToFront();
+                mapView.invalidate();
+                theView.invalidate();
+                minView.invalidate();
+            }
+        }
+    }
+
+    private void resetButtonClicked(){
+        mainViewModel.initGameImpl(level_string);
+        theView.bringToFront();
+        mapView.invalidate();
+        theView.invalidate();
+        minView.invalidate();
+    }
+
+    private void pauseButtonClicked(){
+
+        mainViewModel.moveMin();
+        mainViewModel.moveMin();
+
+        if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+            minView.bringToFront();
+        }
+
+        minView.invalidate();
+    }
+
+    private void saveButtonClicked(){
+        mainViewModel.initGameImpl(level_string);
+        mainViewModel.getGameModel().save();
+    }
+
 
     public static int getScreenWidthInDPs(Context context){
 
