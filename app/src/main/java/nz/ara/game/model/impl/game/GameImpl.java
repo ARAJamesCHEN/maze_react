@@ -229,33 +229,37 @@ public class GameImpl implements Game {
 			Log.e(TAG,"moveMinotaur error status:" + this.status);
 			return;
 		}
-		
+
 		this.minMoveCount = 0;
 		this.minotaur.setCanNotMove(0);
-		
-		boolean hasFinish = false;
-		
-		while(!hasFinish) {
 			
-			Point thePosition = this.theseus.getPosition();
-			
-			Point minPoint = this.minotaur.getPosition();
-			
-			if(this.moveMinotaurLogic(thePosition, minPoint)) {
-				this.minMoveCount++;
-			}else {
-				int canNotMove = this.minotaur.getCanNotMove();
-				canNotMove++;
-				this.minotaur.setCanNotMove(canNotMove);
-			}
-			
-			if((this.minMoveCount + this.minotaur.getCanNotMove())>=2) {
-				hasFinish = true;
-				this.minMoveCount = 0;
-				this.minotaur.setCanNotMove(0);
-			}
+		Point thePosition = this.theseus.getPosition();
+
+		Point minPoint = this.minotaur.getPosition();
+
+		if(this.moveMinotaurLogic(thePosition, minPoint)) {
+			this.minMoveCount++;
+		}else {
+			int canNotMove = this.minotaur.getCanNotMove();
+			canNotMove++;
+			this.minotaur.setCanNotMove(canNotMove);
 		}
+
+		if((this.minMoveCount + this.minotaur.getCanNotMove())>=2) {
+			this.minMoveCount = 0;
+			this.minotaur.setCanNotMove(0);
+		}
+
 		
+	}
+
+	public boolean shouldMoveMin(){
+		if((this.minMoveCount + this.minotaur.getCanNotMove())<2) {
+
+			return true;
+
+		}
+		return false;
 	}
 	
 	

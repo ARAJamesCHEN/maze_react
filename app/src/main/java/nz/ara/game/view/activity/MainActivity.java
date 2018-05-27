@@ -92,20 +92,29 @@ public class MainActivity extends AppCompatActivity {
                             startX=event.getX();
                             startY=event.getY();
 
-                            mainViewModel.move(rolePointXShort,rolePointXLong,rolePointYShort,rolePointYLong,startX,startY);
-                            theView.invalidate();
-
-                            if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
-                                minView.bringToFront();
+                            if(mainViewModel.moveThe(rolePointXShort,rolePointXLong,rolePointYShort,rolePointYLong,startX,startY)){
+                                theView.invalidate();
                             }
-                            minView.invalidate();
+
+                            if(mainViewModel.moveMin()){
+                                minView.invalidate();
+                            }
+
                             break;
                         case MotionEvent.ACTION_MOVE:
                             break;
                         case MotionEvent.ACTION_UP:
+                            if(mainViewModel.moveMin()){
+                                minView.invalidate();
+                            }
+
                             break;
                         default:
                             return false;
+                    }
+
+                    if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+                        minView.bringToFront();
                     }
 
                     Log.d(TAG, "Touch Event::" + event.getAction());

@@ -22,6 +22,7 @@ import java.util.List;
 import nz.ara.game.model.em.direction.Direction;
 import nz.ara.game.model.impl.game.GameImpl;
 import nz.ara.game.model.in.point.Point;
+import nz.ara.game.model.util.tools.UtilTools;
 import nz.ara.game.view.views.MapView;
 
 /**
@@ -85,35 +86,37 @@ public class MainViewModel  extends BaseObservable {
         moveCount.set(String.valueOf(gameModel.getMoveCount()));
     }
 
-    public void move(int rolePointXShort,int rolePointXLong,int rolePointYShort,int rolePointYLong,
+    public boolean moveThe(int rolePointXShort,int rolePointXLong,int rolePointYShort,int rolePointYLong,
                       float startX,float startY){
+
+        boolean isTheMove = false;
 
         //left
         if((startX>0 && startX<rolePointXShort) && (startY>rolePointYShort && startY<rolePointYLong)){
 
             this.gameModel.moveTheseus(Direction.LEFT);
-            this.gameModel.moveMinotaur();
 
+            isTheMove = true;
         }
         //right
         else if((startX>rolePointXLong) && (startY>rolePointYShort && startY<rolePointYLong)){
 
             this.gameModel.moveTheseus(Direction.RIGHT);
-            this.gameModel.moveMinotaur();
+            isTheMove = true;
 
         }
         //up
         else if((startX>rolePointXShort && startX<rolePointXLong) && (startY>0 && startY<rolePointYShort)){
 
             this.gameModel.moveTheseus(Direction.UP);
-            this.gameModel.moveMinotaur();
+            isTheMove = true;
 
         }
         //down
         else if((startX>rolePointXShort && startX<rolePointXLong) && (startY>rolePointYLong)){
 
             this.gameModel.moveTheseus(Direction.DOWN);
-            this.gameModel.moveMinotaur();
+            isTheMove = true;
 
         }else{
             Log.d(TAG, "No Result for rolePointXShort:" + rolePointXShort + ",rolePointXLong: " + rolePointXLong + ",rolePointYShort:" + rolePointYShort
@@ -122,6 +125,19 @@ public class MainViewModel  extends BaseObservable {
 
         initParas();
 
+        return isTheMove;
+
+    }
+
+    public boolean moveMin(){
+
+        if(this.gameModel.shouldMoveMin()){
+            this.gameModel.moveMinotaur();
+        }
+
+        initParas();
+
+        return this.gameModel.shouldMoveMin();
     }
 
    @Bindable
