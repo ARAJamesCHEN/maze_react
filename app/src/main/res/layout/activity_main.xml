@@ -2,8 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="mainViewModel" type="nz.ara.game.viewmodel.MainViewModel" />
+
+        <variable
+            name="mainViewModel"
+            type="nz.ara.game.viewmodel.MainViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -21,8 +25,7 @@
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toTopOf="@+id/button_reset"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            >
+            app:layout_constraintStart_toStartOf="parent">
 
             <nz.ara.game.view.views.MapView
                 id="@+id/mapview"
@@ -31,9 +34,7 @@
                 android:background="#ffffff"
                 app:itemsWallAboveStr="@{mainViewModel.wallAbovePointListStr}"
                 app:itemsWallLeftStr="@{mainViewModel.wallLeftPointListStr}"
-                app:wallSquareStr="@{mainViewModel.wallSquareStr}"
-                >
-
+                app:wallSquareStr="@{mainViewModel.wallSquareStr}">
 
 
             </nz.ara.game.view.views.MapView>
@@ -43,11 +44,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                app:wallSquareStr="@{mainViewModel.wallSquareStr}"
-                app:heightStr ="@{mainViewModel.heightStr}"
                 android:text="@string/ROLE_TYPE_THESEUS"
+                app:heightStr="@{mainViewModel.heightStr}"
                 app:pointStr="@{mainViewModel.thePointStr}"
-                />
+                app:wallSquareStr="@{mainViewModel.wallSquareStr}" />
 
             <nz.ara.game.view.views.RoleView
                 id="@+id/minview"
@@ -55,9 +55,8 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:text="@string/ROLE_TYPE_MINOTAUR"
-                app:wallSquareStr="@{mainViewModel.wallSquareStr}"
                 app:pointStr="@{mainViewModel.minPointStr}"
-                />
+                app:wallSquareStr="@{mainViewModel.wallSquareStr}" />
 
         </FrameLayout>
 
@@ -105,21 +104,20 @@
 
         <Button
             android:id="@+id/button_save"
-            android:layout_width="88dp"
+            android:layout_width="113dp"
             android:layout_height="49dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
             android:text="@string/button_save_name"
             app:layout_constraintBaseline_toBaselineOf="@+id/button_new"
-            app:layout_constraintEnd_toStartOf="@+id/button_help" />
+            app:layout_constraintEnd_toStartOf="@+id/button_more" />
 
         <Button
-            android:id="@+id/button_help"
+            android:id="@+id/button_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@string/button_help_name"
+            android:text="@string/button_more_name"
             app:layout_constraintBaseline_toBaselineOf="@+id/button_save"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -128,8 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:text="@string/button_new_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -138,8 +136,8 @@
             android:id="@+id/textView_move_name"
             android:layout_width="85dp"
             android:layout_height="28dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:text="@string/text_mvcount_name"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent" />
@@ -149,13 +147,10 @@
             android:layout_width="113dp"
             android:layout_height="27dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@{mainViewModel.moveCount}"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView_move_name"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -164,7 +159,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="176dp" />
+            app:layout_constraintGuide_begin="264dp" />
+
+        <Button
+            android:id="@+id/button_help"
+            android:layout_width="97dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="64dp"
+            android:text="@string/button_help_name"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView2" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

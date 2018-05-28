@@ -16,9 +16,11 @@ import android.view.View;
 import com.example.yac0105.game.BR;
 import com.example.yac0105.game.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import nz.ara.game.model.em.constvalue.Const;
 import nz.ara.game.model.em.direction.Direction;
 import nz.ara.game.model.impl.game.GameImpl;
 import nz.ara.game.model.in.point.Point;
@@ -64,7 +66,7 @@ public class MainViewModel  extends BaseObservable {
 
     public void initGameImpl(String level_string){
         if(gameModel == null){
-            gameModel = new GameImpl(level_string);
+            gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath());
         }else{
             gameModel.reLoad(level_string);
         }
@@ -140,9 +142,19 @@ public class MainViewModel  extends BaseObservable {
         return this.gameModel.shouldMoveMin();
     }
 
+    public boolean save(File directory){
+
+        File file = new File(directory, Const.LEVEL_FILE_NAME.getValue());
+
+        this.gameModel.setFilePath(directory.getAbsolutePath());
+
+        return this.gameModel.save();
+
+    }
+
    @Bindable
     public String[] getLevels() {
-        levels = new GameImpl().getLevels();
+        levels = new GameImpl(1, Const.LOAD_BY_STR).getLevels();
         return levels;
     }
 

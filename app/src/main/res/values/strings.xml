@@ -3,9 +3,10 @@
 
     <string name="button_reset_name">RESET</string>
     <string name="button_pause_name">PAUSE</string>
-    <string name="button_save_name">SAVE</string>
+    <string name="button_save_name">SAVE TO FILE</string>
     <string name="button_help_name">HELP</string>
-    <string name="button_new_name">LOAD NEW LEVEL</string>
+    <string name="button_more_name">+</string>
+    <string name="button_new_name">LOAD FROM FILE</string>
 
 
     <string name="text_mvcount_name">Move Count:</string>

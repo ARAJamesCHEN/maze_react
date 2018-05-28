@@ -21,6 +21,9 @@ import android.widget.TextView;
 import com.example.yac0105.game.R;
 import com.example.yac0105.game.databinding.ActivityMainBinding;
 
+import java.io.File;
+
+import nz.ara.game.model.em.constvalue.Const;
 import nz.ara.game.view.views.MapView;
 import nz.ara.game.view.views.RoleView;
 import nz.ara.game.viewmodel.MainViewModel;
@@ -243,7 +246,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveButtonClicked(){
         mainViewModel.initGameImpl(level_string);
-        mainViewModel.getGameModel().save();
+
+        File directory = context.getFilesDir();
+
+        //getAssets().
+
+        mainViewModel.save(directory);
     }
 
 

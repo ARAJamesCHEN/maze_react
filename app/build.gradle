@@ -50,5 +50,5 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi', version: '3.14-beta1'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.14-beta1'
     implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.14-beta1'
-    //implementation 'com.kelin.mvvmlight:library:1.0.0'
+    implementation 'com.fasterxml:aalto-xml:1.0.0'
 }

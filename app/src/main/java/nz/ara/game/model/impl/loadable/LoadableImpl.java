@@ -59,9 +59,21 @@ public class LoadableImpl implements Loadable {
 		this.stepHeight = stepHeight;
 	}
     
-    public void loadByFile() throws FileNotFoundException {
+    public boolean loadByFile() throws FileNotFoundException {
     	this.levelString = this.readLevelStringByFile(this.level);
-    	this.load(this.level);
+
+    	if(UtilTools.isBlank(this.levelString)){
+            return false;
+		}
+
+		try {
+    		this.load(this.level);
+		}catch (Exception e){
+			return false;
+		}
+
+		return true;
+
     }
     
     public void loadByString(String string) {
@@ -234,6 +246,11 @@ public class LoadableImpl implements Loadable {
      * @throws FileNotFoundException
      */
     public String readLevelStringByFile(int thelevel) throws FileNotFoundException{
+
+		if(!absoluteFilePath.endsWith(File.separator)) {
+			absoluteFilePath += File.separator;
+		}
+
     	String filePath = this.absoluteFilePath + Const.LEVEL_FILE_NAME.getValue();
        
     	String  levelMsgFromFile = this.loadFileMsgByLevel(filePath, thelevel);

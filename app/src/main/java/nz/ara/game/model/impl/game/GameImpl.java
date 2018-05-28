@@ -81,11 +81,15 @@ public class GameImpl implements Game {
 		this.setUp(null);
 	}
 
-	public GameImpl(String level_string){
+	public GameImpl(String level_string, String filePath){
 
 		this.level = getLevelByLevelStr(level_string);
 
-		this.setUp(null);
+		this.filePath = filePath;
+
+		Log.d(TAG, this.filePath);
+
+		this.setUp(Const.LOAD_BY_STR);
 	}
 	
 	private String setUp(Const loadType) {
@@ -150,11 +154,12 @@ public class GameImpl implements Game {
 		boolean isLoaded = false;
 		
 		loadable = new LoadableImpl(theLevel, this.filePath,this.stepWidth, this.stepHeight);
+
 		try {
-			loadable.loadByFile();
-			isLoaded = true;
+			isLoaded = loadable.loadByFile();
 		} catch (FileNotFoundException e) {
 			Log.e(TAG,e.getLocalizedMessage(),e);
+			isLoaded = false;
 		}
 		
 		return isLoaded;
@@ -164,13 +169,20 @@ public class GameImpl implements Game {
 	 * 21. load by string
 	 * @param theLevel
 	 */
-	public void loadGameByString(int theLevel) {
+	public boolean loadGameByString(int theLevel) {
+
+		boolean isLoaded = false;
 		//this.moveCount = 0;
 		loadable = new LoadableImpl(theLevel, this.filePath,this.stepWidth, this.stepHeight);
 		
 		String levelString = this.getLevelStringByConst(this.level);
 		Log.d(TAG,"Load from string: " + levelString);
+		if(UtilTools.isBlank(levelString)){
+			return false;
+		}
+
 		loadable.loadByString(levelString);
+		return true;
 	}
 	
 	/**
@@ -183,7 +195,7 @@ public class GameImpl implements Game {
 		try {
 			saveable = new SaveableImpl(this);
 			
-			Saver saver = new SaverImpl(this.level);
+			Saver saver = new SaverImpl(this.level,this.filePath);
 			
 			saver.save(saveable);
 		} catch (Exception e) {
