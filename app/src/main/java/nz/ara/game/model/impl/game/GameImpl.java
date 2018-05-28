@@ -227,12 +227,11 @@ public class GameImpl implements Game {
 		//19. Stops after exits
 		if(!this.status.equals(Const.STATUS_PLAY)) {
 			Log.e(TAG,"moveMinotaur error status:" + this.status);
+			this.minMoveCount = 0;
+			this.minotaur.setCanNotMove(0);
 			return;
 		}
 
-		this.minMoveCount = 0;
-		this.minotaur.setCanNotMove(0);
-			
 		Point thePosition = this.theseus.getPosition();
 
 		Point minPoint = this.minotaur.getPosition();
