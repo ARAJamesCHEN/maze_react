@@ -81,7 +81,7 @@ public class GameImpl implements Game {
 		this.setUp(null);
 	}
 
-	public GameImpl(String level_string, String filePath){
+	public GameImpl(String level_string, String filePath, Const loadType){
 
 		this.level = getLevelByLevelStr(level_string);
 
@@ -89,7 +89,7 @@ public class GameImpl implements Game {
 
 		Log.d(TAG, this.filePath);
 
-		this.setUp(Const.LOAD_BY_STR);
+		this.setUp(loadType);
 	}
 	
 	private String setUp(Const loadType) {

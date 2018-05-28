@@ -1,7 +1,9 @@
 package nz.ara.game.view.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private Button pause;
 
     private Button save;
+
+    private Button loadByFile;
 
     private String level_string = "Level-1";
 
@@ -154,6 +158,17 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        loadByFile = findViewById(R.id.button_new);
+
+        loadByFile.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadByFileButtonClicked();
+                    }
+                }
+        );
+
         if(mainViewModel == null){
             mainViewModel = new MainViewModel(this,level_string);
         }
@@ -176,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if(mainViewModel.moveThe(rolePointXShort,rolePointXLong,rolePointYShort,rolePointYLong,startX,startY)){
                     theView.invalidate();
+
+                    if(mainViewModel.getGameModel().getTheseus().isHasWon()){
+                        theWinDialog();
+                    }
                 }
 
                 if(mainViewModel.moveMin()){
@@ -189,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
                 if(mainViewModel.moveMin()){
                     minView.invalidate();
                 }
-
                 break;
             default:
                 return false;
@@ -197,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
             minView.bringToFront();
+            minKillTheDialog();
         }
 
         Log.d(TAG, "Touch Event::" + event.getAction());
@@ -239,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
             minView.bringToFront();
+            minKillTheDialog();
         }
 
         minView.invalidate();
@@ -249,9 +269,141 @@ public class MainActivity extends AppCompatActivity {
 
         File directory = context.getFilesDir();
 
-        //getAssets().
+        boolean isSuccessful = mainViewModel.save(directory);
 
-        mainViewModel.save(directory);
+        String fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
+
+        if(isSuccessful){
+            infoDialog("Successful", "Save to " + fileP + " successfully!" );
+        }else{
+            infoDialog("Failure", "Save to " + fileP + " Fail!" );
+        }
+    }
+
+    private void loadByFileButtonClicked(){
+        mainViewModel.initGameImplByFile(level_string);
+
+        File directory = context.getFilesDir();
+
+        boolean isSuccessful = mainViewModel.save(directory);
+
+        String fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
+
+        if(isSuccessful){
+            infoDialog("Successful", "Save to " + fileP + " successfully!" );
+        }else{
+            infoDialog("Failure", "Save to " + fileP + " Fail!" );
+        }
+    }
+
+    private void infoDialog(String text, String msg){
+
+        final AlertDialog.Builder minKillTheDialog = new AlertDialog.Builder(this);
+
+        minKillTheDialog.setTitle(text);
+
+        minKillTheDialog.setMessage(msg);
+
+        minKillTheDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        minKillTheDialog.show();
+    }
+
+    private void minKillTheDialog(){
+
+        final AlertDialog.Builder minKillTheDialog = new AlertDialog.Builder(this);
+
+        minKillTheDialog.setTitle("Minotaur killed Theseus!");
+
+        minKillTheDialog.setMessage("Game Over");
+
+        minKillTheDialog.setPositiveButton("OK",
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    minKillTheOptionDialog();
+                }
+         });
+        minKillTheDialog.show();
+    }
+
+    private void minKillTheOptionDialog(){
+        final AlertDialog.Builder theDialog = new AlertDialog.Builder(this);
+
+        theDialog.setTitle("Do you like to play these level again?");
+
+        theDialog.setMessage("");
+
+        theDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                resetButtonClicked();
+            }
+        });
+
+        theDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                level_string = "Level-1";
+                resetButtonClicked();
+                level_spinner.setSelection(0);
+            }
+        });
+        theDialog.show();
+    }
+
+    private void theWinDialog(){
+
+        final AlertDialog.Builder minKillTheDialog = new AlertDialog.Builder(this);
+
+        minKillTheDialog.setTitle("Theseus win!");
+
+        minKillTheDialog.setMessage("Congratulations~");
+
+        minKillTheDialog.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        theWinOptionDialog();
+                    }
+                });
+        minKillTheDialog.show();
+    }
+
+    private void theWinOptionDialog(){
+        final AlertDialog.Builder theDialog = new AlertDialog.Builder(this);
+
+        theDialog.setTitle("Do you like to play these level again?");
+
+        theDialog.setMessage("");
+
+        theDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                resetButtonClicked();
+            }
+        });
+
+        theDialog.setNegativeButton("Next Level", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int theNum = mainViewModel.getGameModel().getLevelByLevelStr(level_string);
+                level_string = mainViewModel.getGameModel().getLevels()[theNum];
+                resetButtonClicked();
+                level_spinner.setSelection(theNum);
+            }
+        });
+        theDialog.show();
     }
 
 

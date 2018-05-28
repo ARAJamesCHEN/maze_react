@@ -66,7 +66,18 @@ public class MainViewModel  extends BaseObservable {
 
     public void initGameImpl(String level_string){
         if(gameModel == null){
-            gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath());
+            gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath(),Const.LOAD_BY_STR);
+        }else{
+            gameModel.reLoad(level_string);
+        }
+
+        initParas();
+
+    }
+
+    public void initGameImplByFile(String level_string){
+        if(gameModel == null){
+            gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath(),Const.LOAD_BY_FILE);
         }else{
             gameModel.reLoad(level_string);
         }
