@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     theView.invalidate();
 
                     if(mainViewModel.getGameModel().getTheseus().isHasWon()){
+                        playWin();
                         theWinDialog();
                     }
                 }
@@ -206,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 if(mainViewModel.moveMin()){
                     if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
                         minView.bringToFront();
+                        playLost();
                         minKillTheDialog();
                     }
 
@@ -219,7 +222,9 @@ public class MainActivity extends AppCompatActivity {
                 if(mainViewModel.moveMin()){
 
                     if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+
                         minView.bringToFront();
+                        playLost();
                         minKillTheDialog();
                     }
 
@@ -271,7 +276,9 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.moveMin();
 
         if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+
             minView.bringToFront();
+            playLost();
             minKillTheDialog();
         }
 
@@ -501,6 +508,18 @@ public class MainActivity extends AppCompatActivity {
         theDialog.show();
     }
 
+
+    public void playWin() {
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.you_win_sound_effect);
+        mediaPlayer.start();
+    }
+
+    public void playLost() {
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.game_over_sound_effect);
+        mediaPlayer.start();
+    }
 
     public static int getScreenWidthInDPs(Context context){
 
