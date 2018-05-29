@@ -2,6 +2,7 @@ package nz.ara.game.view.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -72,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
     private float startY;
     private int offsetsByX;
     private int offsetsByY;
+
+    private File directory;
+
+    private String fileP;
+
+    private boolean isSaveSuccessful = false;
+
+    private boolean isLoadSuccessful = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,13 +169,11 @@ public class MainActivity extends AppCompatActivity {
 
         loadByFile = findViewById(R.id.button_new);
 
-        loadByFile.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loadByFileButtonClicked();
-                    }
-                }
+        loadByFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadByFileButtonClicked();
+            }}
         );
 
         if(mainViewModel == null){
@@ -176,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         binding.setMainViewModel(mainViewModel);
 
     }
-
 
     private boolean roleViewOnTouched(MotionEvent event){
         rolePointXShort = theView.getRolePointXShort();
@@ -198,6 +204,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(mainViewModel.moveMin()){
+                    if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+                        minView.bringToFront();
+                        minKillTheDialog();
+                    }
+
                     minView.invalidate();
                 }
 
@@ -206,6 +217,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MotionEvent.ACTION_UP:
                 if(mainViewModel.moveMin()){
+
+                    if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
+                        minView.bringToFront();
+                        minKillTheDialog();
+                    }
+
                     minView.invalidate();
                 }
                 break;
@@ -213,10 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
         }
 
-        if(mainViewModel.getGameModel().getMinotaur().isHasEaten()){
-            minView.bringToFront();
-            minKillTheDialog();
-        }
+
 
         Log.d(TAG, "Touch Event::" + event.getAction());
         return true;
@@ -267,33 +281,114 @@ public class MainActivity extends AppCompatActivity {
     private void saveButtonClicked(){
         mainViewModel.initGameImpl(level_string);
 
-        File directory = context.getFilesDir();
+        directory = context.getFilesDir();
 
-        boolean isSuccessful = mainViewModel.save(directory);
+        fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
 
-        String fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isLoadSuccessful =  mainViewModel.save(directory);
+                Log.d(TAG,"Save to " + fileP + " successfully!" );
+            }
+        }).start();
 
-        if(isSuccessful){
-            infoDialog("Successful", "Save to " + fileP + " successfully!" );
-        }else{
-            infoDialog("Failure", "Save to " + fileP + " Fail!" );
-        }
+        showSaveFileProgressDialog();
+    }
+
+    private void showSaveFileProgressDialog() {
+        final int MAX_PROGRESS = 100;
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setProgress(0);
+        progressDialog.setTitle("Saving");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(MAX_PROGRESS);
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int progress= 0;
+
+                while (progress < MAX_PROGRESS){
+                    try {
+                        Thread.sleep(100);
+                        if(!isSaveSuccessful){
+                            progress++;
+                            progressDialog.setProgress(progress);
+                        }else{
+                            progressDialog.setProgress(MAX_PROGRESS);
+                            progressDialog.cancel();
+                            if(isSaveSuccessful){
+                                isSaveSuccessful = false;
+                            }
+                        }
+
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+                progressDialog.cancel();
+            }
+        }).start();
+
     }
 
     private void loadByFileButtonClicked(){
-        mainViewModel.initGameImplByFile(level_string);
+        directory = context.getFilesDir();
 
-        File directory = context.getFilesDir();
+        fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
 
-        boolean isSuccessful = mainViewModel.save(directory);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isLoadSuccessful = mainViewModel.initGameImplByFile(level_string);
+                Log.d(TAG,  "Load " + level_string + "from" + fileP + " successfully!" );
+            }
+        }).start();
+
+        showLaodFileProgressDialog();
 
         String fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
 
-        if(isSuccessful){
-            infoDialog("Successful", "Save to " + fileP + " successfully!" );
-        }else{
-            infoDialog("Failure", "Save to " + fileP + " Fail!" );
-        }
+    }
+
+    private void showLaodFileProgressDialog() {
+        final int MAX_PROGRESS = 100;
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setProgress(0);
+        progressDialog.setTitle("Loading");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(MAX_PROGRESS);
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int progress= 0;
+
+                while (progress < MAX_PROGRESS){
+                    try {
+                        Thread.sleep(100);
+                        if(!isLoadSuccessful){
+                            progress++;
+                            progressDialog.setProgress(progress);
+                        }else{
+                            progressDialog.setProgress(MAX_PROGRESS);
+                            progressDialog.cancel();
+                            if(isLoadSuccessful){
+                                isLoadSuccessful = false;
+                            }
+                        }
+
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+                progressDialog.cancel();
+            }
+        }).start();
+
     }
 
     private void infoDialog(String text, String msg){

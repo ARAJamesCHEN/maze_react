@@ -68,21 +68,28 @@ public class MainViewModel  extends BaseObservable {
         if(gameModel == null){
             gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath(),Const.LOAD_BY_STR);
         }else{
-            gameModel.reLoad(level_string);
+            gameModel.reLoad(level_string, Const.LOAD_BY_STR);
         }
 
         initParas();
 
     }
 
-    public void initGameImplByFile(String level_string){
-        if(gameModel == null){
-            gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath(),Const.LOAD_BY_FILE);
-        }else{
-            gameModel.reLoad(level_string);
-        }
+    public boolean initGameImplByFile(String level_string){
+        try {
+            if (gameModel == null) {
+                gameModel = new GameImpl(level_string, this.context.getFilesDir().getAbsolutePath(), Const.LOAD_BY_FILE);
+            } else {
+                gameModel.reLoad(level_string, Const.LOAD_BY_FILE);
+            }
 
-        initParas();
+            initParas();
+
+            return true;
+
+        }catch (Exception e){
+            return false;
+        }
 
     }
 
@@ -144,13 +151,15 @@ public class MainViewModel  extends BaseObservable {
 
     public boolean moveMin(){
 
-        if(this.gameModel.shouldMoveMin()){
+        boolean couldMove = (this.gameModel.shouldMoveMin() && !this.gameModel.getMinotaur().isHasEaten());
+
+        if(couldMove){
             this.gameModel.moveMinotaur();
         }
 
         initParas();
 
-        return this.gameModel.shouldMoveMin();
+        return couldMove;
     }
 
     public boolean save(File directory){

@@ -211,21 +211,21 @@ public class GameImpl implements Game {
 	 * 22. reset or go to another level
 	 * @param aNewLevel
 	 */
-	public void reLoad(int aNewLevel) {
+	public void reLoad(int aNewLevel, Const loadType) {
 		if(aNewLevel<1) {
 			this.level = 1;
 		}
 		
 		this.level = aNewLevel;
 		
-		this.setUp(null);
+		this.setUp(Const.LOAD_BY_STR);
 	}
 
-	public void reLoad(String aNewLevelStr) {
+	public void reLoad(String aNewLevelStr, Const loadType) {
 
 		int aNewLevel = this.getLevelByLevelStr(aNewLevelStr);
 
-		this.reLoad(aNewLevel);
+		this.reLoad(aNewLevel,loadType);
 	}
 	
 	
@@ -275,6 +275,19 @@ public class GameImpl implements Game {
 	
 	
 	public boolean moveMinotaurLogic(Point thePosition, Point minPoint) {
+
+		if(thePosition.across() == minPoint.across()
+				&& thePosition.down() == minPoint.down()){
+
+			if(this.checkEaten()) {
+				Log.d(TAG,"Killed!");
+				this.minotaur.setHasEaten(true);
+				this.status = Const.STATUS_EATEN;
+			}
+
+			return true;
+		}
+
 		if(this.moveMinotaurHorizontally(thePosition,minPoint)) {
 			return true;
 		}
