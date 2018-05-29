@@ -354,13 +354,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 isLoadSuccessful = mainViewModel.initGameImplByFile(level_string);
-                Log.d(TAG,  "Load " + level_string + "from" + fileP + " successfully!" );
+                Log.d(TAG,  "Load " + level_string + " from " + fileP + " successfully!" );
             }
         }).start();
 
         showLaodFileProgressDialog();
 
-        String fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
+
+        fileP = directory.getAbsolutePath() + File.separator + Const.LEVEL_FILE_NAME.getValue();
 
     }
 
@@ -415,6 +416,8 @@ public class MainActivity extends AppCompatActivity {
                             if(isLoadSuccessful){
                                 isLoadSuccessful = false;
                             }
+                            minView.invalidate();
+                            theView.invalidate();
                         }
 
                     } catch (InterruptedException e){
