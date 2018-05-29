@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button loadByFile;
 
+    private Button help;
+
     private String level_string = "Level-1";
 
     private MainViewModel mainViewModel;
@@ -72,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
     private float startX;
     private float startY;
-    private int offsetsByX;
-    private int offsetsByY;
 
     private File directory;
 
@@ -174,6 +174,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadByFileButtonClicked();
+            }}
+        );
+
+        help = findViewById(R.id.button_help);
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpButtonClicked();
             }}
         );
 
@@ -360,6 +369,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void  helpButtonClicked(){
+        helpButtonDialog();
+    }
+
+    private void  helpButtonDialog(){
+
+        final AlertDialog.Builder minKillTheDialog = new AlertDialog.Builder(this);
+
+        minKillTheDialog.setTitle("HELP");
+
+        minKillTheDialog.setMessage("As Theseus, you must escape the Minotaur's maze!\n" +
+                "\n" +
+                "For every move you make, the Minotaur makes two moves. Luckily, he isn't terribly bright. He will move toward Theseus, favoring horizontal over vertical moves, without knowing how to get around a wall in his way. Escape by luring the Minotaur into a place where he gets stuck!\n" +
+                "\n" +
+                "Code: Yang CHEN 99168512");
+
+        minKillTheDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        minKillTheDialog.show();
+    }
+
     private void showLaodFileProgressDialog() {
         final int MAX_PROGRESS = 100;
         final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
@@ -398,22 +432,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void infoDialog(String text, String msg){
 
-        final AlertDialog.Builder minKillTheDialog = new AlertDialog.Builder(this);
-
-        minKillTheDialog.setTitle(text);
-
-        minKillTheDialog.setMessage(msg);
-
-        minKillTheDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        minKillTheDialog.show();
-    }
 
     private void minKillTheDialog(){
 
