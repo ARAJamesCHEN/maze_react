@@ -1,6 +1,6 @@
 package nz.ara.game.view.activity;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,13 +9,11 @@ import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+
 import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -73,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private int rolePointYLong = 200;
 
     private float startX;
+
     private float startY;
 
     private File directory;
@@ -109,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
                     return roleViewOnTouched(event);
                 }
             });
-
-
         }
 
 
@@ -243,8 +240,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return false;
         }
-
-
 
         Log.d(TAG, "Touch Event::" + event.getAction());
         return true;
@@ -540,27 +535,4 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.start();
     }
 
-    public static int getScreenWidthInDPs(Context context){
-
-        final FrameLayout frameLayout = (FrameLayout) ((Activity)context).findViewById(R.id.frameLayout);
-
-        int b = frameLayout.getMeasuredHeight();
-
-        DisplayMetrics dm = new DisplayMetrics();
-
-        WindowManager windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(dm);
-        int widthInDP = Math.round(dm.widthPixels / dm.density);
-        return widthInDP;
-
-    }
-
-    public static int getScreenHeightInDPs(Context context){
-        DisplayMetrics dm = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(dm);
-
-        int heightInDP = Math.round(dm.heightPixels / dm.density);
-        return heightInDP;
-    }
 }
