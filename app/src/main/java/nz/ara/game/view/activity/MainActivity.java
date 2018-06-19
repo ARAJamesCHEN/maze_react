@@ -5,8 +5,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -22,6 +26,11 @@ import android.widget.TextView;
 
 import com.example.yac0105.game.R;
 import com.example.yac0105.game.databinding.ActivityMainBinding;
+import com.facebook.react.BuildConfig;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactRootView;
+import com.facebook.react.common.LifecycleState;
+import com.facebook.react.shell.MainReactPackage;
 
 import java.io.File;
 
@@ -82,13 +91,39 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isLoadSuccessful = false;
 
+    private ReactRootView mReactRootView;
+    private ReactInstanceManager mReactInstanceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         context = this;
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 154);
+            }
+        }
+
+        mReactRootView = new ReactRootView(this);
+
+        mReactInstanceManager = ReactInstanceManager.builder()
+                .setApplication(getApplication())
+                .setBundleAssetName("index.android.bundle")
+                .addPackage(new MainReactPackage())
+                .setUseDeveloperSupport(BuildConfig.DEBUG)
+                .setInitialLifecycleState(LifecycleState.RESUMED)
+                .build();
+
+        // 第二個參數"MyReactNativeApp"為React Native中的AppRegistry.registerComponent的第一個參數
+        mReactRootView.startReactApplication(mReactInstanceManager, "MyReactNativeApp", null);
+        setContentView(mReactRootView);
+
+
+        /*binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         mapView = findViewById(R.id.mapview);
 
@@ -187,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             mainViewModel = new MainViewModel(this,level_string);
         }
 
-        binding.setMainViewModel(mainViewModel);
+        binding.setMainViewModel(mainViewModel);*/
 
     }
 

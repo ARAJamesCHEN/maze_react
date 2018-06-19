@@ -10,7 +10,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.yac0105.game"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -26,9 +26,6 @@ android {
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
-        //exclude 'android/databinding/DataBinderMapper.java'
-        //exclude 'android/databinding/DataBindingComponent.java'
-        //exclude 'android/databinding/DynamicUtil.java'
     }
 
     dataBinding {
@@ -51,4 +48,5 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.14-beta1'
     implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.14-beta1'
     implementation 'com.fasterxml:aalto-xml:1.0.0'
+    compile "com.facebook.react:react-native:+" // From node_modules.
 }

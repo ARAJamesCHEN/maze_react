@@ -1,0 +1,23 @@
+{
+  "name": "maze_react",
+  "version": "1.0.0",
+  "description": "maze in React Native for view",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ARAJamesCHEN/maze_react.git"
+  },
+  "author": "Yang CHEN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ARAJamesCHEN/maze_react/issues"
+  },
+  "homepage": "https://github.com/ARAJamesCHEN/maze_react#readme",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-native": "^0.55.4"
+  }
+}
